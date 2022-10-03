@@ -1,10 +1,4 @@
-// 1st Assignment Project
-// Michael Gao
-// 10/2/2022
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
+//Blocks//
 let x = 0;
 let y = 0;
 let dx = 3;
@@ -12,8 +6,22 @@ let dy = 2;
 let squareSize = 50;
 let squareColor;
 
+//WASD//
+let x2 = 200;
+let y2 = 200;
+let circleSize = 14
+let circleSpeed = 2;
+
+
+//----------------------------------------------------------------------------------------------------// 
+
+//Draw Loop
+
+//----------------------------------------------------------------------------------------------------// 
+
+
 function setup() {
-  createCanvas(300, 200);
+  createCanvas(windowWidth, windowHeight);
   squareColor = color(255, 0, 0);
 }
 
@@ -22,7 +30,12 @@ function draw() {
   drawSquare();
   moveSquare();
   bounceIfNeeded();
+  handleKeys()
+  drawCircle()
 }
+
+//----------------------------------------------------------------------------------------------------// 
+
 
 function mouseWheel(event) {
   // console.log(event.delta);
@@ -94,4 +107,32 @@ function changeSquareColor() {
   squareColor = color(r, g, b);
 }
 
+//----------------------------------------------------------------------------------------------------// 
+
+//WASD Controls 
+
+//----------------------------------------------------------------------------------------------------// 
+
+
+function drawCircle() {
+    fill("red");
+    noStroke();
+    circle(x2, y2, circleSize);
+  }
+  
+  function handleKeys() {
+    if (keyIsDown(87)) { //w
+      y2 -= circleSpeed;
+    }
+      if (keyIsDown(83)) { //s
+      y2 += circleSpeed;
+    }
+      if (keyIsDown(68)) { //d
+      x2 += circleSpeed;
+    }
+      if (keyIsDown(65)) { //a
+      x2 -= circleSpeed;
+    }
+  }
+  
 
