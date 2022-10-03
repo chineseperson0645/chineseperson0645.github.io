@@ -19,6 +19,8 @@ let squareColor;
 //WASD//
 let x2 = 200;
 let y2 = 200;
+let dx2 = 3;
+let dy2 = 2;
 let circleSize = 14
 let circleSpeed = 5;
 
@@ -42,6 +44,7 @@ function draw() {
   bounceIfNeeded();
   handleKeys()
   drawCircle()
+  dontGoBeyondEdge()
 }
 
 //----------------------------------------------------------------------------------------------------// 
@@ -135,18 +138,41 @@ function drawCircle() {
   }
   
   function handleKeys() {
-    if (keyIsDown(87)) { //w
+
+  //if (y2 >= 0 || y2 <= windowHeight){
+
+    if (keyIsDown(87) && y2 >= 0) { //w
       y2 -= circleSpeed;
     }
-      if (keyIsDown(83)) { //s
+      if (keyIsDown(83) && y2 <= height) { //s
       y2 += circleSpeed;
     }
-      if (keyIsDown(68)) { //d
+      if (keyIsDown(68) && x2 >= 0) { //d
       x2 += circleSpeed;
     }
-      if (keyIsDown(65)) { //a
+      if (keyIsDown(65) && x2 <= width) { //a
       x2 -= circleSpeed;
     }
-  }
+}
+
   
+function dontGoBeyondEdge(){
+  if (x2 >= width - squareSize){
+    (x2 - width && x2 - height);
+  }
+
+  else if (x2 <= 0) {
+
+  }
+  else if (y2 >= height - squareSize){
+
+  }
+ else if (y2 <= 0){
+
+ }
+}
+
+// if the coridinate of charcter = to any coridinate of the collided item (i.e a wall or block)
+// if x = x2
+// neg 
 
