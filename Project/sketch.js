@@ -14,7 +14,12 @@ let y = 0;
 let dx = 3;
 let dy = 2;
 let squareSize = 50;
+let squareSize2 = 50;
 let squareColor;
+
+//Width and Height of Canvas 
+let widthOfCanvas = 500; //Eason helped me.
+let heightOfCanvas = 500; //Eason helped me.
 
 //WASD//
 let x2 = 200;
@@ -33,13 +38,14 @@ let circleSpeed = 5;
 
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(widthOfCanvas, heightOfCanvas); //Eason helped me.
   squareColor = color(255, 0, 0);
 }
 
 function draw() {
   background(220);
   drawSquare();
+  drawRectangle();
   moveSquare();
   bounceIfNeeded();
   handleKeys()
@@ -79,6 +85,13 @@ function mousePressed() {
 function drawSquare() {
   fill(squareColor);
   square(x, y, squareSize);
+
+}
+
+function drawRectangle(){
+  fill("green");
+  rect(50, 50, squareSize2);
+
 }
 
 function moveSquare() {
@@ -139,40 +152,49 @@ function drawCircle() {
   
   function handleKeys() {
 
-  //if (y2 >= 0 || y2 <= windowHeight){
-
-    if (keyIsDown(87) && y2 >= 0) { //w
+    if (keyIsDown(87)) { //w
       y2 -= circleSpeed;
     }
-      if (keyIsDown(83) && y2 <= height) { //s
+      if (keyIsDown(83)) { //s
       y2 += circleSpeed;
     }
-      if (keyIsDown(68) && x2 >= 0) { //d
+      if (keyIsDown(68)) { //d
       x2 += circleSpeed;
     }
-      if (keyIsDown(65) && x2 <= width) { //a
+      if (keyIsDown(65)) { //a
       x2 -= circleSpeed;
     }
 }
 
   
 function dontGoBeyondEdge(){
-  if (x2 >= width - squareSize){
-    (x2 - width && x2 - height);
+  if (x2 >= width - circleSize){
+
+    //Stops it from getting caught in wall
+    x2 = width - circleSize - 1;
   }
 
-  else if (x2 <= 0) {
+  if (x2 <= 15) {
+
+    //Stops it from getting caught in wall
+    x2 = 15;
 
   }
-  else if (y2 >= height - squareSize){
+  if (y2 >= height - circleSize){
+
+    //Stops it from getting caught in wall
+    y2 = height - circleSize - 1;
 
   }
- else if (y2 <= 0){
+  if (y2 <= 15){
+
+    //Stops it from getting caught in wall
+    y2 = 15; 
 
  }
 }
 
 // if the coridinate of charcter = to any coridinate of the collided item (i.e a wall or block)
 // if x = x2
-// neg 
+// neg
 
