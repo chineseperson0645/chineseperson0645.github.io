@@ -11,10 +11,12 @@
 //Blocks//
 let x = 0;
 let y = 0;
+let x3 = 0
+let y3 = 0
 let dx = 3;
 let dy = 2;
 let squareSize = 50;
-let squareSize2 = 50;
+let rectSize = 200
 let squareColor;
 
 //Width and Height of Canvas 
@@ -45,7 +47,7 @@ function setup() {
 function draw() {
   background(220);
   drawSquare();
-  drawRectangle();
+  drawRectangles();
   moveSquare();
   bounceIfNeeded();
   handleKeys()
@@ -88,9 +90,13 @@ function drawSquare() {
 
 }
 
-function drawRectangle(){
+function drawRectangles(){
+  let r = random();
   fill("green");
-  rect(50, 50, squareSize2);
+  rect(0, 0, 500, 50);
+  rect(0, 0, 50, 500);
+  rect(0, 450, 500, 50);
+  rect(450, 0, 50, 500);
 
 }
 
