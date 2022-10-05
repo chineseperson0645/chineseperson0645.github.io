@@ -91,7 +91,6 @@ function drawSquare() {
 }
 
 function drawRectangles(){
-  let r = random();
   fill("green");
   rect(0, 0, 500, 50);
   rect(0, 0, 50, 500);
