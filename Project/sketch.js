@@ -92,10 +92,10 @@ function drawSquare() {
 
 function drawRectangles(){
   fill("green");
-  rect(0, 0, 500, 50);
-  rect(0, 0, 50, 500);
-  rect(0, 450, 500, 50);
-  rect(450, 0, 50, 500);
+  rect(0, 0, 500, 10);
+  rect(0, 0, 10, 500);
+  rect(0, 490, 500, 10);
+  rect(490, 0, 10, 500);
 
 }
 
@@ -110,37 +110,33 @@ function bounceIfNeeded() {
     dx *= -1;
     //don't get caught on wall
     x = width - squareSize - 1; 
-    changeSquareColor();
   }
   //bounce off left wall
   else if (x <= 0) {
     dx *= -1;
     //don't get caught on wall
     x = 1; 
-    changeSquareColor();
   }
   //bounce off bottom wall
   if (y >= height - squareSize) {
     dy *= -1;
     //don't get caught on wall
     y = height - squareSize - 1; 
-    changeSquareColor();
   }
   //bounce off top wall
   if (y <= 0) {
     dy *= -1;
     //don't get caught on wall
     y = 1; 
-    changeSquareColor();
   }
 }
 
-function changeSquareColor() {
-  let r = random(0, 255);
-  let g = random(0, 255);
-  let b = random(0, 255);
-  squareColor = color(r, g, b);
-}
+// function changeSquareColor() {
+//   let r = random(0, 255);
+//   let g = random(0, 255);
+//   let b = random(0, 255);
+//   squareColor = color(r, g, b);
+// }
 
 //----------------------------------------------------------------------------------------------------// 
 
@@ -203,4 +199,4 @@ function dontGoBeyondEdge(){
 // if x = x2
 // neg
 
-//
+//Maybe make a thin layer of a color around the border. Then do something like if red touching green or something. Send them back a step to create a border.
