@@ -8,6 +8,8 @@
 
 //----------------------------------------------------------------------------------------------------// 
 
+let state = "green";
+
 //Blocks//
 let x = 0;
 let y = 0;
@@ -26,7 +28,7 @@ let x2 = 200;
 let y2 = 200;
 let dx2 = 3;
 let dy2 = 2;
-let circleSize = 50
+let circleSize = 15
 let circleSpeed = 10;
 
 
@@ -51,6 +53,7 @@ function draw() {
   handleKeys()
   drawCircle()
   dontGoBeyondEdge()
+  collideWithWall()
 }
 
 //----------------------------------------------------------------------------------------------------// 
@@ -186,6 +189,16 @@ function dontGoBeyondEdge(){ //Stops it from getting caught in wall
     y2 = circleSize; 
 
  }
+}
+
+//dont go past the color.
+function collideWithWall(){
+  if (state === true){
+  x2 = width - circleSize;
+}
+  else {
+  y2 = height - circleSize;
+  }
 }
 
 
