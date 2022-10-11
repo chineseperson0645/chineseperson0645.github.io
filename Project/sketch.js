@@ -47,13 +47,11 @@ function setup() {
 function draw() {
   background(220);
   drawSquare();
-  drawRectangles();
   moveSquare();
   bounceIfNeeded();
   handleKeys()
   drawCircle()
   dontGoBeyondEdge()
-  collideWithWall()
 }
 
 //----------------------------------------------------------------------------------------------------// 
