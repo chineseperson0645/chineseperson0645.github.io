@@ -1,3 +1,12 @@
+function setup() {
+    createCanvas(500, 500); //Eason helped me.
+  }
+  
+  function draw() {
+    background(220);
+    newMaze(500, 500)
+  }
+
 function newMaze(x, y) {
 
   // Establish variables and starting grid

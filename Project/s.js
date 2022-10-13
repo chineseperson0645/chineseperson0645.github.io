@@ -9,15 +9,16 @@
 //----------------------------------------------------------------------------------------------------// 
 
 //Random Walls Generation Controls (Karar helped me)
-let time = 2000;
-let move = true;
+
+let generate = true;
+let someTime = 10;
 let x3 = 480;
 let y3 = 480;
 let wallHeight = 480;
 let wallWidth = 10;
 
 //Width and Height of Canvas (Eason helped me)
-let widthOfCanvas = 500;
+let widthOfCanvas = 800;
 let heightOfCanvas = 500; 
 
 //WASD//
@@ -61,45 +62,33 @@ function draw() {
 
 //----------------------------------------------------------------------------------------------------// 
 
-//Random Wall Generation (Based on Millis Demo)
+//Random Wall Generation (Based on Millis Demo w/Karar's Help)
 
 //----------------------------------------------------------------------------------------------------// 
 
 
 
-function generateWall(){
-
-//Variable of Wall
+function generateWall() {
   let r = random(10, 20)
   let r2 = random(100, 480)
-  let r3 = random(0, 500)
+  let r3 = random(widthOfCanvas)
 
-//Charcteristics of Wall
+if (millis() > someTime) {
+  generate = !generate;
+  someTime = millis() + 100; 
+}
+  
+if (generate){
   fill("green");
   rect(r3, 0, r, r2)
-
-//Timing of Generation
-if (millis() > time) {
-  move = !move;
-  time = millis() + 2000;
-  }
-
-
-//Generation of wall
-  if (move){
-    x3 = random(1, widthOfCanvas);
-    y3 = random(1, heightOfCanvas);
-  }
-  else{
-    millis() = 0;
-  }
+  x3 = random(1, widthOfCanvas);
+  y3 = random(1, heightOfCanvas);
 }
-
-// function moveWall(){
-//  x3 += 0.01;
-// }
-
-
+  
+// else {
+//   ellipse("white");
+//   }
+}
 
 //----------------------------------------------------------------------------------------------------// 
 
