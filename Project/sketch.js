@@ -8,20 +8,17 @@
 
 //----------------------------------------------------------------------------------------------------// 
 
-let state = "green";
+//Random Walls Generation Controls (Karar helped me)
+let time = 2000;
+let move = true;
+let x3 = 480;
+let y3 = 480;
+let wallHeight = 480;
+let wallWidth = 10;
 
-//Blocks//
-let x = 0;
-let y = 0;
-let dx = 3;
-let dy = 2;
-let squareSize = 50;
-let rectSize = 200
-let squareColor;
-
-//Width and Height of Canvas 
-let widthOfCanvas = 500; //Eason helped me.
-let heightOfCanvas = 500; //Eason helped me.
+//Width and Height of Canvas (Eason helped me)
+let widthOfCanvas = 500;
+let heightOfCanvas = 500; 
 
 //WASD//
 let x2 = 200;
@@ -32,11 +29,13 @@ let circleSize = 15
 let circleSpeed = 10;
 
 
+
 //----------------------------------------------------------------------------------------------------// 
 
 //Draw Loop
 
 //----------------------------------------------------------------------------------------------------// 
+
 
 
 function setup() {
@@ -45,97 +44,62 @@ function setup() {
 }
 
 function draw() {
+  
+  //Backround
   background(220);
-  drawSquare();
-  moveSquare();
-  bounceIfNeeded();
-  handleKeys()
-  drawCircle()
-  dontGoBeyondEdge()
+
+  //WASD
+  handleKeys();
+  drawCircle();
+  dontGoBeyondEdge();
+
+  //Wall Gen
+  generateWall();
 }
+
+
 
 //----------------------------------------------------------------------------------------------------// 
 
-//Code
+//Random Wall Generation (Based on Millis Demo)
 
 //----------------------------------------------------------------------------------------------------// 
 
 
-function mouseWheel(event) {
-  // console.log(event.delta);
-  if (event.delta < 0) {
-    //sanity check for max size
-    if (squareSize < height * 0.75 &&
-        squareSize < width * 0.75) {
-      squareSize += 5;
-    }
-  }
-  else {
-    //sanity check for min size
-    if (squareSize > 10) {
-      squareSize -= 5;
-    }
-  }
-}
 
-function mousePressed() {
-  dx = random(-5, 5);
-  dy = random(-5, 5);
-}
+function generateWall(){
 
-function drawSquare() {
-  fill(squareColor);
-  square(x, y, squareSize);
+//Variable of Wall
+  let r = random(10, 20)
+  let r2 = random(100, 480)
+  let r3 = random(0, 500)
 
-}
-
-function drawRectangles(){
+//Charcteristics of Wall
   fill("green");
-  rect(0, 0, 500, 10);
-  rect(0, 0, 10, 500);
-  rect(0, 490, 500, 10);
-  rect(490, 0, 10, 500);
+  rect(r3, 0, r, r2)
 
-}
+//Timing of Generation
+if (millis() > time) {
+  move = !move;
+  time = millis() + 2000;
+  }
 
-function moveSquare() {
-  x += dx;
-  y += dy;
-}
 
-function bounceIfNeeded() {
-  //bounce off right wall
-  if (x >= width - squareSize) {
-    dx *= -1;
-    //don't get caught on wall
-    x = width - squareSize - 1; 
+//Generation of wall
+  if (move){
+    x3 = random(1, widthOfCanvas);
+    y3 = random(1, heightOfCanvas);
   }
-  //bounce off left wall
-  else if (x <= 0) {
-    dx *= -1;
-    //don't get caught on wall
-    x = 1; 
-  }
-  //bounce off bottom wall
-  if (y >= height - squareSize) {
-    dy *= -1;
-    //don't get caught on wall
-    y = height - squareSize - 1; 
-  }
-  //bounce off top wall
-  if (y <= 0) {
-    dy *= -1;
-    //don't get caught on wall
-    y = 1; 
+  else{
+    millis() = 0;
   }
 }
 
-// function changeSquareColor() {
-//   let r = random(0, 255);
-//   let g = random(0, 255);
-//   let b = random(0, 255);
-//   squareColor = color(r, g, b);
+// function moveWall(){
+//  x3 += 0.01;
 // }
+
+
 
 //----------------------------------------------------------------------------------------------------// 
 
@@ -144,13 +108,17 @@ function bounceIfNeeded() {
 //----------------------------------------------------------------------------------------------------// 
 
 
+
 function drawCircle() {
+//Draws circle
+
     fill("red");
     noStroke();
     circle(x2, y2, circleSize);
   }
   
   function handleKeys() {
+  //Controls WASD
 
     if (keyIsDown(87)) { //w
       y2 -= circleSpeed;
@@ -166,11 +134,21 @@ function drawCircle() {
     }
 }
 
-  
-function dontGoBeyondEdge(){ //Stops it from getting caught in wall
+
+
+//----------------------------------------------------------------------------------------------------// 
+
+//Collisions
+
+//----------------------------------------------------------------------------------------------------// 
+
+
+function dontGoBeyondEdge(){ 
+//Stops it from getting caught in wall
 
   //If the x value of our circle is GREATER than the width of the canvas negative the circle size
   //The x value of our circle will equal the with negative the circle size.
+
   if (x2 > width - circleSize){
     x2 = width - circleSize;
   }
@@ -189,8 +167,8 @@ function dontGoBeyondEdge(){ //Stops it from getting caught in wall
  }
 }
 
-//dont go past the color.
 function collideWithWall(){
+//Stops it from going past certain color ***(NOT COMPLETE)***
   if (state === true){
   x2 = width - circleSize;
 }
@@ -199,6 +177,17 @@ function collideWithWall(){
   }
 }
 
+
+
+//----------------------------------------------------------------------------------------------------// 
+
+//Notes
+
+//----------------------------------------------------------------------------------------------------//
+
+
+
+//implement part of the swords game on by the collision library guy
 
 // if the coridinate of charcter = to any coridinate of the collided item (i.e a wall or block)
 // if x = x2
