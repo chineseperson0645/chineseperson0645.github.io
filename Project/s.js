@@ -26,8 +26,8 @@ let x2 = 200;
 let y2 = 200;
 let dx2 = 3;
 let dy2 = 2;
-let circleSize = 15
-let circleSpeed = 20;
+let circleSize = 30
+let circleSpeed = 10;
 
 
 
@@ -47,7 +47,7 @@ function setup() {
 function draw() {
   
   //Backround
-  background(220);
+  background("blue");
 
   //WASD
   handleKeys();
@@ -57,7 +57,7 @@ function draw() {
   //Wall Gen
   generateWall();
 
-  frameRate(5);
+  frameRate(60);
 }
 
 
@@ -68,25 +68,34 @@ function draw() {
 
 //----------------------------------------------------------------------------------------------------// 
 
-
-
 function generateWall() {
+  //someTime = 500
   let r = random(10, 20)
   let r2 = random(100, 480)
   let r3 = random(widthOfCanvas)
+  let ms = millis();
 
-if (millis() > someTime) {
+if (ms > someTime) { // 0 > 500
   generate = !generate;
-  someTime = millis() + 0; 
+  if (ms = someTime) //500 = 500
+  generate = !generate
 }
-  
-if (generate){
-  fill("green");
+
+//After 2 Seconds, Generation should stop.
+//Then in the 3rd Second, Gerneration will continue.
+
+//Think of Generation not like something that happens in order nessarily
+//Rather a gate that is open, and closed
+if (generate){ 
+  fill("black");
   rect(r3, 0, r, r2)
   x3 = random(1, widthOfCanvas);
   y3 = random(1, heightOfCanvas);
 }
-  
+
+if (someTime < ms) //500 < 501
+  someTime = someTime + 1000;
+
 // else {
 //   ellipse("white");
 //   }
@@ -103,7 +112,7 @@ if (generate){
 function drawCircle() {
 //Draws circle
 
-    fill("red");
+    fill("yellow");
     noStroke();
     circle(x2, y2, circleSize);
   }
@@ -168,11 +177,11 @@ function collideWithWall(){
   }
 }
 
-walls = [[100, 150, 100, 200]]
-line (100, 150, 100, 200)
+// walls = [[100, 150, 100, 200]]
+// line (100, 150, 100, 200)
 
-walls[0][0]
-walls[0][1]
+// walls[0][0]
+// walls[0][1]
 
 
 //----------------------------------------------------------------------------------------------------// 
@@ -190,3 +199,9 @@ walls[0][1]
 // neg
 
 //Maybe make a thin layer of a color around the border. Then do something like if red touching green or something. Send them back a step to create a border.
+
+//Color Scheme Idea From
+//https://editor.p5js.org/mbardin/sketches/oNoGbSiHm
+//By "mbardin"
+
+//https://p5js.org/reference/
