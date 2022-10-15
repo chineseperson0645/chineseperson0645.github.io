@@ -11,7 +11,7 @@
 //Random Walls Generation Controls (Karar helped me)
 
 let generate = true;
-let someTime = 10;
+let someTime = 1000;
 let x3 = 480;
 let y3 = 480;
 let wallHeight = 480;
@@ -27,7 +27,7 @@ let y2 = 200;
 let dx2 = 3;
 let dy2 = 2;
 let circleSize = 15
-let circleSpeed = 10;
+let circleSpeed = 20;
 
 
 
@@ -56,6 +56,8 @@ function draw() {
 
   //Wall Gen
   generateWall();
+
+  frameRate(5);
 }
 
 
@@ -75,7 +77,7 @@ function generateWall() {
 
 if (millis() > someTime) {
   generate = !generate;
-  someTime = millis() + 100; 
+  someTime = millis() + 0; 
 }
   
 if (generate){
@@ -166,6 +168,11 @@ function collideWithWall(){
   }
 }
 
+walls = [[100, 150, 100, 200]]
+line (100, 150, 100, 200)
+
+walls[0][0]
+walls[0][1]
 
 
 //----------------------------------------------------------------------------------------------------// 
