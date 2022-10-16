@@ -7,7 +7,15 @@
 //1. Collision Detection (And stop the round once hit)
 //2. Start(and End) Menu and Mode Selector
 //3. Score Counter
-//4. 
+
+
+//QUESIONS
+//Why doesn't "let r = random(0, widthOfCanvas);" work as a global variable?
+
+//Methods
+//1. Easy Way. Make a bunch of walls (hardcoded) and call them randomly. Then set collision for 
+//those walls
+//2. Harder Way. Make an array for only the X of walls. Set wallX for the collisions x value.
 
 //----------------------------------------------------------------------------------------------------// 
 
@@ -20,6 +28,7 @@
 //Collision Detection
 let hit = false;
 let circleAlive = true;
+// let wallX = Math.floor(Math.random() * 500);
 
 //Random Walls Generation Controls (Karar helped me)
 
@@ -81,8 +90,7 @@ function draw() {
   //WASD
   drawCircle();
   dontGoBeyondEdge();
-
-  // deadOrAlive();  //WORK ON THIS - IT BREAKS THE GAME
+// deadOrAlive(); //WORK ON THIS - IT BREAKS THE GAME
 
   circle(1051, 136, 50);
 }
@@ -130,10 +138,11 @@ let easy = random(400, 700);
 let medium = random(250, 500);
 let hard = random(100, 250);
 
-let r = random(widthOfCanvas)
+
 let ms = millis();
 let x3 = 480;
 let y3 = 480;
+let r = random(0, widthOfCanvas);
 
 if (ms >= someTime) { // 0 > 500
   generate = !generate;
@@ -146,6 +155,7 @@ if (ms >= someTime) { // 0 > 500
 if (generate){ 
   fill("white");
   rect(r, 0, 20, 500)
+
   x3 = random(1, widthOfCanvas);
   y3 = random(1, heightOfCanvas);
   generate = !generate
@@ -168,8 +178,8 @@ if (generate){
 //----------------------------------------------------------------------------------------------------// 
 
 function deadOrAlive(){
-hit = collideRectCircle(r, 0, 20, 500, x2, y2, circleSize);
-if (hit = true)
+hit = collideRectCircle(10, 0, 20, 500, x2, y2, circleSize);
+if (hit === true)
 circleAlive = !circleAlive
 
 }
@@ -275,3 +285,6 @@ function collideWithWall(){
 //By "mbardin"
 
 //https://p5js.org/reference/
+
+//https://github.com/EQuimper/CodeChallenge/blob/master/javascript/FreeCodeCamps/Basic%20JavaScript/Generate%20Random%20Whole%20Numbers%20with%20JavaScript.md
+//Math.floor(Math.random() * 500
