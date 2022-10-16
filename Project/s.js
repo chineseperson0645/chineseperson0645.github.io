@@ -25,10 +25,9 @@ let circleAlive = true;
 
 let generate = true;
 let someTime = 300;
-let x3 = 480;
-let y3 = 480;
 let wallHeight = 480;
 let wallWidth = 10;
+
 
 //Width and Height of Canvas (Eason helped me)
 let widthOfCanvas = 1010;
@@ -36,7 +35,7 @@ let heightOfCanvas = 500;
 
 //WASD//
 let x2 = 505;
-let y2 = 500;
+let y2 = 480;
 let dx2 = 3;
 let dy2 = 2;
 let circleSize = 30
@@ -67,7 +66,11 @@ function draw() {
   //Backround
   background(255);
 
+  //BG Image
   image(nightImage, 0, 0, widthOfCanvas, heightOfCanvas);
+
+  //Framerate
+  frameRate(60);
 
   //Wall Gen
   drawWalls();
@@ -79,7 +82,7 @@ function draw() {
   drawCircle();
   dontGoBeyondEdge();
 
-  frameRate(60);
+  // deadOrAlive();  //WORK ON THIS - IT BREAKS THE GAME
 
   circle(1051, 136, 50);
 }
@@ -98,11 +101,10 @@ function drawWalls(){
 fill("Black")
   rect (0, 0, 20, heightOfCanvas)
   rect (0, 0, widthOfCanvas, 20)
-  rect (0, 480, widthOfCanvas, 30)
   rect (990, 0, 20, heightOfCanvas)
 
   //Diving Line
-  rect (500, 0, 10, heightOfCanvas)
+  // rect (500, 0, 10, heightOfCanvas)
 }
 
 
@@ -119,6 +121,7 @@ fill("Black")
 
 
 function generateWall() {
+//someTime = 300 (Currently)
 
 //Modes
 //random(x, ) = Minimum Value that is Added (Shortest Time Burst).
@@ -127,10 +130,10 @@ let easy = random(400, 700);
 let medium = random(250, 500);
 let hard = random(100, 250);
 
-  //someTime = 300 (Currently)
-
-  let r = random(widthOfCanvas/2 - 10)
-  let ms = millis();
+let r = random(widthOfCanvas)
+let ms = millis();
+let x3 = 480;
+let y3 = 480;
 
 if (ms >= someTime) { // 0 > 500
   generate = !generate;
@@ -142,7 +145,7 @@ if (ms >= someTime) { // 0 > 500
 
 if (generate){ 
   fill("white");
-  rect(r, 0, 20, 490)
+  rect(r, 0, 20, 500)
   x3 = random(1, widthOfCanvas);
   y3 = random(1, heightOfCanvas);
   generate = !generate
@@ -156,6 +159,8 @@ if (generate){
 //If wall >= roof. 
 }
 
+
+
 //----------------------------------------------------------------------------------------------------// 
 
 //WASD Controls 
@@ -163,7 +168,7 @@ if (generate){
 //----------------------------------------------------------------------------------------------------// 
 
 function deadOrAlive(){
-hit = collideRectCircle(200, 200, 100, 150, mouseX, mouseY, 100);
+hit = collideRectCircle(r, 0, 20, 500, x2, y2, circleSize);
 if (hit = true)
 circleAlive = !circleAlive
 
