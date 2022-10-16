@@ -2,34 +2,53 @@
 // Michael Gao
 // 10/3/22
 
+
+//TO DO LIST
+//1. Collision Detection (And stop the round once hit)
+//2. Start(and End) Menu and Mode Selector
+//3. Score Counter
+//4. 
+
 //----------------------------------------------------------------------------------------------------// 
 
 //Global Variables
 
 //----------------------------------------------------------------------------------------------------// 
 
+
+
+//Collision Detection
+let hit = false;
+let circleAlive = true;
+
 //Random Walls Generation Controls (Karar helped me)
 
 let generate = true;
-let someTime = 1000;
+let someTime = 300;
 let x3 = 480;
 let y3 = 480;
 let wallHeight = 480;
 let wallWidth = 10;
 
 //Width and Height of Canvas (Eason helped me)
-let widthOfCanvas = 800;
+let widthOfCanvas = 1010;
 let heightOfCanvas = 500; 
 
 //WASD//
-let x2 = 200;
-let y2 = 200;
+let x2 = 505;
+let y2 = 500;
 let dx2 = 3;
 let dy2 = 2;
 let circleSize = 30
 let circleSpeed = 10;
 
+//Image
+let nightImage;
 
+function preload() {
+  nightImage = loadImage("night.png");
+
+}
 
 //----------------------------------------------------------------------------------------------------// 
 
@@ -41,25 +60,50 @@ let circleSpeed = 10;
 
 function setup() {
   createCanvas(widthOfCanvas, heightOfCanvas); //Eason helped me.
-  squareColor = color(255, 0, 0);
 }
 
 function draw() {
   
   //Backround
-  background("blue");
+  background(255);
+
+  image(nightImage, 0, 0, widthOfCanvas, heightOfCanvas);
+
+  //Wall Gen
+  drawWalls();
+  
+  //Random Wall Gen
+  generateWall();
 
   //WASD
-  handleKeys();
   drawCircle();
   dontGoBeyondEdge();
 
-  //Wall Gen
-  generateWall();
-
   frameRate(60);
+
+  circle(1051, 136, 50);
 }
 
+function mousePressed() {
+  console.log(mouseX, mouseY);
+}
+
+//----------------------------------------------------------------------------------------------------// 
+
+//Generates Walls
+
+//----------------------------------------------------------------------------------------------------//
+
+function drawWalls(){
+fill("Black")
+  rect (0, 0, 20, heightOfCanvas)
+  rect (0, 0, widthOfCanvas, 20)
+  rect (0, 480, widthOfCanvas, 30)
+  rect (990, 0, 20, heightOfCanvas)
+
+  //Diving Line
+  rect (500, 0, 10, heightOfCanvas)
+}
 
 
 //----------------------------------------------------------------------------------------------------// 
@@ -68,37 +112,48 @@ function draw() {
 
 //----------------------------------------------------------------------------------------------------// 
 
+// function whatMode() {
+//   if //person clicks easy
+
+// }
+
+
 function generateWall() {
-  //someTime = 500
-  let r = random(10, 20)
-  let r2 = random(100, 480)
-  let r3 = random(widthOfCanvas)
+
+//Modes
+//random(x, ) = Minimum Value that is Added (Shortest Time Burst).
+//random ( , y) = Maximum Value that is Added (Longest Time Burst).
+let easy = random(400, 700); 
+let medium = random(250, 500);
+let hard = random(100, 250);
+
+  //someTime = 300 (Currently)
+
+  let r = random(widthOfCanvas/2 - 10)
   let ms = millis();
 
-if (ms > someTime) { // 0 > 500
+if (ms >= someTime) { // 0 > 500
   generate = !generate;
-  if (ms = someTime) //500 = 500
+  someTime = someTime + hard; //Put whatMode here
+}
+
+//Think of Generation not like something that happens in order nessarily
+//Rather a gate that is open, and closed.
+
+if (generate){ 
+  fill("white");
+  rect(r, 0, 20, 490)
+  x3 = random(1, widthOfCanvas);
+  y3 = random(1, heightOfCanvas);
   generate = !generate
 }
 
-//After 2 Seconds, Generation should stop.
-//Then in the 3rd Second, Gerneration will continue.
+//if (x3 && y3 = x4 && y4) 
+//sometime = !sometime (or something)
 
-//Think of Generation not like something that happens in order nessarily
-//Rather a gate that is open, and closed
-if (generate){ 
-  fill("black");
-  rect(r3, 0, r, r2)
-  x3 = random(1, widthOfCanvas);
-  y3 = random(1, heightOfCanvas);
-}
-
-if (someTime < ms) //500 < 501
-  someTime = someTime + 1000;
-
-// else {
-//   ellipse("white");
-//   }
+//Rain Game.
+//Random Generator for where the protected roof generates.
+//If wall >= roof. 
 }
 
 //----------------------------------------------------------------------------------------------------// 
@@ -107,14 +162,24 @@ if (someTime < ms) //500 < 501
 
 //----------------------------------------------------------------------------------------------------// 
 
+function deadOrAlive(){
+hit = collideRectCircle(200, 200, 100, 150, mouseX, mouseY, 100);
+if (hit = true)
+circleAlive = !circleAlive
 
+}
+
+// function deadScreen(){
+//   if (circleAlive === false)
+// }
 
 function drawCircle() {
 //Draws circle
-
+if (circleAlive)
     fill("yellow");
     noStroke();
     circle(x2, y2, circleSize);
+    handleKeys()
   }
   
   function handleKeys() {
