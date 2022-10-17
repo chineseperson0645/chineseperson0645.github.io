@@ -47,34 +47,6 @@ function mouseInsideRect(left, right, top, bottom) {
          mouseY >= top && mouseY <= bottom;
 }
 
-
-
-//Generation of wall// **ATTEMPT
-
-// current someTime = 10;
-// current generate = true;
-
-//Variable of Wall
-let r = random(10, 20)
-let r2 = random(100, 480)
-let r3 = random(0, 500)
-
-//Should always be stuck on not moving..?
-
-//Timing of Generation//
-
-//ONLY IF THE MILLIS IS GREATER THAN TIME WILL THE MILLIS ADDER QUE.
-
-// if (someTime >= millis()) { // 10 > 0(M) // Currently still in generate = true 
-//   someTime = millis() + 10; // 10 < 20(M) // AFTER 10 MILLISECONDS
-//   generate = !generate; //!generate
-
-//     if (millis()*1.5 >= someTime){ // 20*1.5 = 30(M) > 10 // 
-//       someTime*4; // 30(M) < 10*4 = 40 //
-//       generate = !generate
-//   }
-// }
-
 // if (generate){ 
 //   //Possibly add a && ifNotTouchingRed or something function.
 //   fill("green");

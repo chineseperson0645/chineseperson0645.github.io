@@ -3,19 +3,27 @@
 // 10/3/22
 
 
+
 //TO DO LIST
 //1. Collision Detection (And stop the round once hit)
 //2. Start(and End) Menu and Mode Selector
 //3. Score Counter
 
+//CURRENTLY ON
+//Making End Screen
 
 //QUESIONS
 //Why doesn't "let r = random(0, widthOfCanvas);" work as a global variable?
+//How to load a JS file for end and start screen.
 
-//Methods
+//METHODS
 //1. Easy Way. Make a bunch of walls (hardcoded) and call them randomly. Then set collision for 
-//those walls
+//those walls <---------THIS ONE.
+
+
 //2. Harder Way. Make an array for only the X of walls. Set wallX for the collisions x value.
+
+
 
 //----------------------------------------------------------------------------------------------------// 
 
@@ -28,21 +36,20 @@
 //Collision Detection
 let hit = false;
 let circleAlive = true;
+let r;
 // let wallX = Math.floor(Math.random() * 500);
 
 //Random Walls Generation Controls (Karar helped me)
-
 let generate = true;
 let someTime = 300;
 let wallHeight = 480;
 let wallWidth = 10;
 
-
 //Width and Height of Canvas (Eason helped me)
 let widthOfCanvas = 1010;
 let heightOfCanvas = 500; 
 
-//WASD//
+//WASD
 let x2 = 505;
 let y2 = 480;
 let dx2 = 3;
@@ -83,14 +90,17 @@ function draw() {
 
   //Wall Gen
   drawWalls();
-  
+
   //Random Wall Gen
   generateWall();
 
   //WASD
   drawCircle();
   dontGoBeyondEdge();
-// deadOrAlive(); //WORK ON THIS - IT BREAKS THE GAME
+  deadOrAlive(); //WORK ON THIS - IT BREAKS THE GAME
+  if (r + 20 > x2 - 30 && r > x2 + 30){
+    console.log("gameover");
+  }
 
   circle(1051, 136, 50);
 }
@@ -99,11 +109,15 @@ function mousePressed() {
   console.log(mouseX, mouseY);
 }
 
+
+
 //----------------------------------------------------------------------------------------------------// 
 
 //Generates Walls
 
 //----------------------------------------------------------------------------------------------------//
+
+
 
 function drawWalls(){
 fill("Black")
@@ -116,49 +130,47 @@ fill("Black")
 }
 
 
+
 //----------------------------------------------------------------------------------------------------// 
 
 //Random Wall Generation (Based on Millis Demo w/Karar's Help)
 
 //----------------------------------------------------------------------------------------------------// 
 
-// function whatMode() {
-//   if //person clicks easy
 
+
+// function whatMode() {
+//   if //person clicks easy. Set as Easy.
 // }
 
-
 function generateWall() {
-//someTime = 300 (Currently)
 
 //Modes
 //random(x, ) = Minimum Value that is Added (Shortest Time Burst).
 //random ( , y) = Maximum Value that is Added (Longest Time Burst).
 let easy = random(400, 700); 
 let medium = random(250, 500);
-let hard = random(100, 250);
-
+let hard = random(1000, 2500);
 
 let ms = millis();
-let x3 = 480;
-let y3 = 480;
-let r = random(0, widthOfCanvas);
+r = random(0, widthOfCanvas);
 
 if (ms >= someTime) { // 0 > 500
   generate = !generate;
   someTime = someTime + hard; //Put whatMode here
 }
 
-//Think of Generation not like something that happens in order nessarily
+function wallCharcter(){
+  fill("white");
+  rect(r, 0, 20, 500)
+}
+
+//Think of "generate" not like something that happens in order nessarily
 //Rather a gate that is open, and closed.
 
 if (generate){ 
-  fill("white");
-  rect(r, 0, 20, 500)
-
-  x3 = random(1, widthOfCanvas);
-  y3 = random(1, heightOfCanvas);
-  generate = !generate
+  wallCharcter();
+  // generate = !generate
 }
 
 //if (x3 && y3 = x4 && y4) 
@@ -173,30 +185,50 @@ if (generate){
 
 //----------------------------------------------------------------------------------------------------// 
 
-//WASD Controls 
+//Are You Dead?
 
 //----------------------------------------------------------------------------------------------------// 
 
-function deadOrAlive(){
-hit = collideRectCircle(10, 0, 20, 500, x2, y2, circleSize);
-if (hit === true)
-circleAlive = !circleAlive
 
+
+function deadOrAlive(){
+  hit = collideRectCircle(r, 0, 20, 500, x2, y2, circleSize);
+  if (hit === true){
+  circleAlive = !circleAlive
+}
+  // if (hit === false){
+  //   circleAlive = circleAlive
+  // }
 }
 
-// function deadScreen(){
-//   if (circleAlive === false)
-// }
+function endScreen(){
+  load
+  
+}
+
+
+
+//----------------------------------------------------------------------------------------------------// 
+
+//WASD Controls 
+
+//----------------------------------------------------------------------------------------------------//
+
+
 
 function drawCircle() {
 //Draws circle
 if (circleAlive)
     fill("yellow");
-    noStroke();
     circle(x2, y2, circleSize);
+    noStroke();
     handleKeys()
   }
-  
+
+// if (circleAlive = false){
+//     endScreen()
+//   }
+
   function handleKeys() {
   //Controls WASD
 
@@ -247,15 +279,15 @@ function dontGoBeyondEdge(){
  }
 }
 
-function collideWithWall(){
-//Stops it from going past certain color ***(NOT COMPLETE)***
-  if (state === true){
-  x2 = width - circleSize;
-}
-  else {
-  y2 = height - circleSize;
-  }
-}
+// function collideWithWall(){
+// //Stops it from going past certain color ***(NOT COMPLETE)***
+//   if (state === true){
+//   x2 = width - circleSize;
+// }
+//   else {
+//   y2 = height - circleSize;
+//   }
+// }
 
 // walls = [[100, 150, 100, 200]]
 // line (100, 150, 100, 200)
