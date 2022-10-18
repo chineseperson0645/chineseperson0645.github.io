@@ -364,6 +364,19 @@ function dontGoBeyondEdge(){
 // walls[0][0]
 // walls[0][1]
 
+// if (generate){ 
+//   //Possibly add a && ifNotTouchingRed or something function.
+//   fill("green");
+//   rect(r3, 0, r, r2)
+//   x3 = random(1, widthOfCanvas);
+//   y3 = random(1, heightOfCanvas);
+//   }
+// }
+
+// function moveWall(){ //I think Karar helped
+//  x3 += 0.01;
+// }
+
 
 
 //---ABANDONED IDEAS---//
