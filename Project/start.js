@@ -48,7 +48,6 @@ function mouseInsideRect(left, right, top, bottom) {
 }
 
 
-
 // if (generate){ 
 //   //Possibly add a && ifNotTouchingRed or something function.
 //   fill("green");
