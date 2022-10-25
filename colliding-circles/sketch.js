@@ -17,6 +17,29 @@ function draw() {
     theCircles[i].x += theCircles[i].dx;
     theCircles[i].y += theCircles[i].dy;
 
+    //collision check
+    for (let j=0; j<theCircles.length; j++) {
+      if (i !== j) { //don't check if hitting self
+        if (isColliding(theCircles[i], theCircles[j])) {
+          theCircles[i].theColor = "red";
+          theCircles[j].theColor = "red";
+        }
+      }
+    }
+
+// for (let j=0; j > theCircles.length; j++) { 
+//   if (i !== j){   //Don't check if hitting self
+//     if (isColliding(theCircles[i], theCircles[j])) {
+//       let tempDx = theCircles[i].dx;
+//       let tempDy = theCircles[i].dx;
+//       theCircles[i].dx = theCircles[j].dx
+//       theCircles[i].dy = theCircles[j].dx
+//       theCircles[j].dx = tempDx;
+//       theCircles[j].dy = tempDy;
+//     }
+//   }
+// }
+
     //left-right edges
     if (theCircles[i].x + theCircles[i].radius > width ||
        theCircles[i].x - theCircles[i].radius < 0) {
@@ -38,6 +61,17 @@ function draw() {
   }
 }
 
+function isColliding(ball1, ball2) {
+  let distanceBetween = dist(ball1.x, ball1.y, ball2.x, ball2.y);
+  let radiiSum = ball1.radius + ball2.radius;
+  if (distanceBetween > radiiSum) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
 function mousePressed() {
   theCircles.push(spawnBall(mouseX, mouseY));
 }
@@ -53,3 +87,5 @@ function spawnBall(tempX, tempY) {
   };
   return newBall;
 }
+
+
