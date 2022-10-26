@@ -2,59 +2,51 @@
 // Schellenberg
 // Oct 24, 2022
 
-let theCircles = [];
+let nums = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  theCircles.push(spawnBall(100, 100));
+  nums.push(spawnBall(100, 100));
 }
 
 function draw() {
   background(220);
 
   //move
-  for (let i=0; i<theCircles.length; i++) {
-    theCircles[i].x += theCircles[i].dx;
-    theCircles[i].y += theCircles[i].dy;
+  for (let i = 0; i < nums.length; i++) {
+    nums[i].x += nums[i].dx;
+    nums[i].y += nums[i].dy;
 
     //collision check
-    for (let j=0; j<theCircles.length; j++) {
+    for (let j = 0; j < nums.length; j++) {
       if (i !== j) { //don't check if hitting self
-        if (isColliding(theCircles[i], theCircles[j])) {
-          theCircles[i].theColor = "red";
-          theCircles[j].theColor = "red";
+        if (isColliding(nums[i], nums[j])) {
+            let tempDx = nums[i].dx;
+            let tempDy = nums[i].dy;
+            nums[i].dx = nums[j].dx;
+            nums[i].dy = nums[j].dy;
+            nums[j].dx = tempDx;
+            nums[j].dy = tempDy;
         }
       }
     }
 
-// for (let j=0; j > theCircles.length; j++) { 
-//   if (i !== j){   //Don't check if hitting self
-//     if (isColliding(theCircles[i], theCircles[j])) {
-//       let tempDx = theCircles[i].dx;
-//       let tempDy = theCircles[i].dx;
-//       theCircles[i].dx = theCircles[j].dx
-//       theCircles[i].dy = theCircles[j].dx
-//       theCircles[j].dx = tempDx;
-//       theCircles[j].dy = tempDy;
-//     }
-//   }
-// }
 
     //left-right edges
-    if (theCircles[i].x + theCircles[i].radius > width ||
-       theCircles[i].x - theCircles[i].radius < 0) {
-      theCircles[i].dx *= -1;
+    if (nums[i].x + nums[i].radius > width ||
+       nums[i].x - nums[i].radius < 0) {
+      nums[i].dx *= -1;
     }
 
     //top-bottom edges
-    if (theCircles[i].y + theCircles[i].radius > height || 
-      theCircles[i].y - theCircles[i].radius < 0) {
-      theCircles[i].dy *= -1;
+    if (nums[i].y + nums[i].radius > height || 
+      nums[i].y - nums[i].radius < 0) {
+      nums[i].dy *= -1;
     }
   }
   
   //display
-  for (let thisCircle of theCircles) {
+  for (let thisCircle of nums) {
     fill(thisCircle.theColor);
     noStroke();
     circle(thisCircle.x, thisCircle.y, thisCircle.radius*2);
@@ -73,7 +65,7 @@ function isColliding(ball1, ball2) {
 }
 
 function mousePressed() {
-  theCircles.push(spawnBall(mouseX, mouseY));
+  nums.push(spawnBall(mouseX, mouseY));
 }
 
 function spawnBall(tempX, tempY) {
