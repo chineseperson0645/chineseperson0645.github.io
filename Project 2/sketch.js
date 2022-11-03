@@ -59,8 +59,7 @@ function keyPressed() {
 
   //Bullet Logic/Function
   if (keyCode === UP_ARROW) {
-    for (let i = 0; i < windowHeight; i++){
-      if (grid[bulletY-1][parseInt(playerX)] === 0) {
+      if (grid[bulletY-1][playerX] === 0) {
         bulletY--;
       //reset old location to white
         grid[bulletY][bulletX] = 0;
@@ -69,7 +68,6 @@ function keyPressed() {
       }
     }
   }
-}
 
 function mousePressed() {
   let xPos = Math.floor(mouseX/cellWidth);
