@@ -59,16 +59,14 @@ function keyPressed() {
 
   //Bullet Logic/Function
   if (keyCode === UP_ARROW) {
-    if (grid[bulletY-1][bulletX] === 0) {
-
+    for (let i = 0; i < windowHeight; i++){
+      if (grid[bulletY-1][parseInt(playerX)] === 0) {
+        bulletY--;
       //reset old location to white
-      grid[bulletY][bulletX] = 0;
-      
-      //move
-      bulletY--;
-
-      //set new player location
-      grid[bulletY][bulletX] = 9;
+        grid[bulletY][bulletX] = 0;
+      // //set new player location
+        grid[bulletY][bulletX] = 9;
+      }
     }
   }
 }
@@ -128,8 +126,6 @@ function create2dArray(COLS, ROWS) {
 
 //Additional Controls//
 
-
-
 //   if (keyCode === DOWN_ARROW) {
 //     if (grid[playerY+1][playerX] === 0) {
 //       //reset old location to white
@@ -145,7 +141,7 @@ function create2dArray(COLS, ROWS) {
 
 
 
-//Random 2D Array's//
+//Random 2D Array//
 
 // function createRandom2dArray(COLS, ROWS) {
 //   let emptyArray = [];
