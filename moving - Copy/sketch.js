@@ -1,26 +1,24 @@
-// Aliean Invasion. (Plagrisim)
-// Michael Gao
-// November 2 2022
-
-//Pea shooter game. Kind of like aliean invasion game.
-
-const ROWS = 15;
-const COLS = 30;
+const ROWS = 40;
+const COLS = 40;
 let grid;
 let cellWidth;
 let cellHeight;
-let playerX = COLS/2;
-let playerY = ROWS-1;
-let bulletX = COLS/2;
-let bulletY = ROWS-1;
-let stoneImg;
+let playerX = 0;
+let playerY = 0;
 
+let grassImg, rockImg, horseImg;
+
+function preload() {
+  grassImg = loadImage('grass.png');
+  rockImg = loadImage('rock.png');
+  horseImg = loadImage('horse.png')
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   cellWidth = width/COLS;
   cellHeight = height/ROWS;
-  grid = create2dArray(COLS, ROWS);
+  grid = createRandom2dArray(COLS, ROWS);
   //place player in grid
   grid[playerY][playerX] = 9;
 }
@@ -57,18 +55,29 @@ function keyPressed() {
     }
   }
 
-  //Bullet Logic/Function
   if (keyCode === UP_ARROW) {
-    if (grid[bulletY-1][bulletX] === 0) {
-
+    if (grid[playerY-1][playerX] === 0) {
       //reset old location to white
-      grid[bulletY][bulletX] = 0;
+      grid[playerY][playerX] = 0;
       
       //move
-      bulletY--;
+      playerY--;
 
       //set new player location
-      grid[bulletY][bulletX] = 9;
+      grid[playerY][playerX] = 9;
+    }
+  }
+
+  if (keyCode === DOWN_ARROW) {
+    if (grid[playerY+1][playerX] === 0) {
+      //reset old location to white
+      grid[playerY][playerX] = 0;
+      
+      //move
+      playerY++;
+
+      //set new player location
+      grid[playerY][playerX] = 9;
     }
   }
 }
@@ -88,17 +97,16 @@ function mousePressed() {
 function displayGrid(grid) {
   for (let y=0; y<ROWS; y++) {
     for (let x=0; x<COLS; x++) {
-      noStroke();
       if (grid[y][x] === 0) {
-        fill("white");
+        image(rockImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 1) {
-        fill("black");
+        image(grassImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 9) {
-        fill("red");
+        image(rockImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        image(horseImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
-      rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
     }
   }
 }
@@ -114,51 +122,18 @@ function create2dArray(COLS, ROWS) {
   return emptyArray;
 }
 
-
-
-//----------------------------------------------------------------------------------------------------// 
-
-//Notes / Credits / Doodles / Abandoned Ideas // Others
-
-//----------------------------------------------------------------------------------------------------//
-
-
-
-//---NOTES---//
-
-//Additional Controls//
-
-
-
-//   if (keyCode === DOWN_ARROW) {
-//     if (grid[playerY+1][playerX] === 0) {
-//       //reset old location to white
-//       grid[playerY][playerX] = 0;
-      
-//       //move
-//       playerY++;
-
-//       //set new player location
-//       grid[playerY][playerX] = 9;
-//     }
-//   }
-
-
-
-//Random 2D Array's//
-
-// function createRandom2dArray(COLS, ROWS) {
-//   let emptyArray = [];
-//   for (let y=0; y<ROWS; y++) {
-//     emptyArray.push([]);
-//     for (let x=0; x<COLS; x++) {
-//       if (random(100) < 50) {
-//         emptyArray[y].push(0);
-//       }
-//       else {
-//         emptyArray[y].push(1);
-//       }
-//     }
-//   }
-//   return emptyArray;
-// }
+function createRandom2dArray(COLS, ROWS) {
+  let emptyArray = [];
+  for (let y=0; y<ROWS; y++) {
+    emptyArray.push([]);
+    for (let x=0; x<COLS; x++) {
+      if (random(100) < 50) {
+        emptyArray[y].push(0);
+      }
+      else {
+        emptyArray[y].push(1);
+      }
+    }
+  }
+  return emptyArray;
+}
