@@ -7,6 +7,8 @@ const COLS = 3;
 let grid;
 let cellWidth;
 let cellHeight;
+let state = false;
+let BOX = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -27,19 +29,15 @@ function mousePressed() {
   let yPos2 = Math.floor(mouseY/cellHeight);
 
   //X
-  if (grid[yPos][xPos] === 0) {
+  if (grid[yPos][xPos] === 0 && state === false) {
     grid[yPos][xPos] = 1;
-  }
-  else if (grid[yPos][xPos] === 1) {
-    grid[yPos][xPos] = 0;
+    state = true;
   }
 
   //O
-  if (grid[yPos2][xPos2] === 2) {
-    grid[yPos2][xPos2] = 3;
-  }
-  else if (grid[yPos][xPos] === 3){
+  else if (grid[yPos2][xPos2] === 0 && state === true) {
     grid[yPos2][xPos2] = 2;
+    state = false;
   }
 }
 
@@ -47,10 +45,12 @@ function displayGrid(grid) {
   for (let y=0; y<ROWS; y++) {
     for (let x=0; x<COLS; x++) {
 
-      //X
+      //Blank
       if (grid[y][x] === 0) {
         fill("white");
       }
+
+      //X
       else if (grid[y][x] === 1) {
         fill("black");
       }
@@ -58,9 +58,6 @@ function displayGrid(grid) {
       //O
       if (grid[y][x] === 2){
         fill("red");
-      }
-      else if (grid[y][x] === 3){
-        fill("blue");
       }
       rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
     }
@@ -77,3 +74,13 @@ function create2dArray(COLS, ROWS) {
   }
   return emptyArray;
 }
+
+//Notes//
+
+  // else if (grid[yPos][xPos] === 1) {
+  //   grid[yPos][xPos] = 2;
+  // }
+
+  // else if (grid[yPos][xPos] === 3){
+  //   grid[yPos2][xPos2] = 0;
+  // }
