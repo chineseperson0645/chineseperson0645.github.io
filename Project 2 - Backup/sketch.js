@@ -2,25 +2,104 @@
 // Michael
 // 11/3/22
 
+//Extra for Experts
+
 const ROWS = 3;
 const COLS = 3;
 let grid;
 let cellWidth;
 let cellHeight;
-let state = false;
+let oTurn = false;
 let BOX = 0;
+let OImg;
+let XImg;
+
+let widthOfCanvas = 800;
+let heightOfCanvas = 700; 
+
+const cells = {
+  cell1XOccupied: "no",
+  cell1OOccupied: "no",
+  cell2XOccupied: "no",
+  cell2OOccupied: "no",
+  cell3XOccupied: "no",
+  cell3OOccupied: "no",
+  cell4XOccupied: "no",
+  cell4OOccupied: "no",
+  cell5XOccupied: "no",
+  cell5OOccupied: "no",
+  cell6XOccupied: "no",
+  cell6OOccupied: "no",
+  cell7XOccupied: "no",
+  cell7OOccupied: "no",
+  cell8XOccupied: "no",
+  cell8OOccupied: "no",
+  cell9XOccupied: "no",
+  cell9OOccupied: "no"
+}
+
+// const cell1 = {
+//   cell1XOccupied: "no",
+//   cell1OOccupied: "no",
+// }
+// const cell2 = {
+//   cell2XOccupied: "no",
+//   cell2OOccupied: "no"
+// }
+// const cell3 = {
+//   cell3XOccupied: "no",
+//   cell3OOccupied: "no"
+// }
+// const cell4 = {
+//   cell4XOccupied: "no",
+//   cell4OOccupied: "no"
+// }
+// const cell5 = {
+//   cell5XOccupied: "no",
+//   cell5OOccupied: "no"
+// }
+// const cell6 = {
+//   cell6XOccupied: "no",
+//   cell6OOccupied: "no"
+// }
+// const cell7 = {
+//   cell7XOccupied: "no",
+//   cell7OOccupied: "no"
+// }
+
+// const cell8 = {
+//   cell8XOccupied: "no",
+//   cell8OOccupied: "no"
+// }
+// const cell9 = {
+//   cell9XOccupied: "no",
+//   cell9OOccupied: "no"
+// }
+
+
+
+function preload() {
+  OImg = loadImage('O.png');
+  XImg = loadImage('X.png');
+}
+
+
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(widthOfCanvas, heightOfCanvas);
   cellWidth = width/COLS;
   cellHeight = height/ROWS;
   grid = create2dArray(COLS, ROWS);
 }
 
+
+
 function draw() {
   background(220);
   displayGrid(grid);
 }
+
+
 
 function mousePressed() {
   let xPos = Math.floor(mouseX/cellWidth);
@@ -29,17 +108,24 @@ function mousePressed() {
   let yPos2 = Math.floor(mouseY/cellHeight);
 
   //X
-  if (grid[yPos][xPos] === 0 && state === false) {
+  if (grid[yPos][xPos] === 0 && oTurn === false) {
     grid[yPos][xPos] = 1;
-    state = true;
+    oTurn = true;
+    cell1.xOccupied = "yes";
+      console.log("X.");
   }
 
   //O
-  else if (grid[yPos2][xPos2] === 0 && state === true) {
+  else if (grid[yPos2][xPos2] === 0 && oTurn === true) {
     grid[yPos2][xPos2] = 2;
-    state = false;
+    oTurn = false;
+    cell1.oOccupied = "yes";
+    if (cell1.oOccupied === "yes");
+      console.log("O.");
   }
 }
+
+
 
 function displayGrid(grid) {
   for (let y=0; y<ROWS; y++) {
@@ -48,21 +134,31 @@ function displayGrid(grid) {
       //Blank
       if (grid[y][x] === 0) {
         fill("white");
+        rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+
       }
 
       //X
       else if (grid[y][x] === 1) {
-        fill("black");
+        image(XImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
 
       //O
       if (grid[y][x] === 2){
-        fill("red");
+        image(OImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
-      rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
     }
   }
 }
+
+function whoWon() {
+  for (let y=0; y<ROWS; y++) {
+    for (let x=0; x<COLS; x++) {
+    }
+  }
+}
+
+
 
 function create2dArray(COLS, ROWS) {
   let emptyArray = [];
