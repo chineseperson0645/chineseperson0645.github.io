@@ -17,64 +17,66 @@ let XImg;
 let widthOfCanvas = 800;
 let heightOfCanvas = 700; 
 
-const cells = {
-  cell1XOccupied: "no",
-  cell1OOccupied: "no",
-  cell2XOccupied: "no",
-  cell2OOccupied: "no",
-  cell3XOccupied: "no",
-  cell3OOccupied: "no",
-  cell4XOccupied: "no",
-  cell4OOccupied: "no",
-  cell5XOccupied: "no",
-  cell5OOccupied: "no",
-  cell6XOccupied: "no",
-  cell6OOccupied: "no",
-  cell7XOccupied: "no",
-  cell7OOccupied: "no",
-  cell8XOccupied: "no",
-  cell8OOccupied: "no",
-  cell9XOccupied: "no",
-  cell9OOccupied: "no"
-}
-
-// const cell1 = {
+// class cell1 {
+//   constructor (xOccupied, yOccupied);
+  
 //   cell1XOccupied: "no",
 //   cell1OOccupied: "no",
-// }
-// const cell2 = {
 //   cell2XOccupied: "no",
-//   cell2OOccupied: "no"
-// }
-// const cell3 = {
+//   cell2OOccupied: "no",
 //   cell3XOccupied: "no",
-//   cell3OOccupied: "no"
-// }
-// const cell4 = {
+//   cell3OOccupied: "no",
 //   cell4XOccupied: "no",
-//   cell4OOccupied: "no"
-// }
-// const cell5 = {
+//   cell4OOccupied: "no",
 //   cell5XOccupied: "no",
-//   cell5OOccupied: "no"
-// }
-// const cell6 = {
+//   cell5OOccupied: "no",
 //   cell6XOccupied: "no",
-//   cell6OOccupied: "no"
-// }
-// const cell7 = {
+//   cell6OOccupied: "no",
 //   cell7XOccupied: "no",
-//   cell7OOccupied: "no"
-// }
-
-// const cell8 = {
+//   cell7OOccupied: "no",
 //   cell8XOccupied: "no",
-//   cell8OOccupied: "no"
-// }
-// const cell9 = {
+//   cell8OOccupied: "no",
 //   cell9XOccupied: "no",
 //   cell9OOccupied: "no"
 // }
+
+const cell1 = {
+  XOccupied: "no",
+  OOccupied: "no",
+}
+const cell2 = {
+  cell2XOccupied: "no",
+  cell2OOccupied: "no"
+}
+const cell3 = {
+  cell3XOccupied: "no",
+  cell3OOccupied: "no"
+}
+const cell4 = {
+  cell4XOccupied: "no",
+  cell4OOccupied: "no"
+}
+const cell5 = {
+  cell5XOccupied: "no",
+  cell5OOccupied: "no"
+}
+const cell6 = {
+  cell6XOccupied: "no",
+  cell6OOccupied: "no"
+}
+const cell7 = {
+  cell7XOccupied: "no",
+  cell7OOccupied: "no"
+}
+
+const cell8 = {
+  cell8XOccupied: "no",
+  cell8OOccupied: "no"
+}
+const cell9 = {
+  cell9XOccupied: "no",
+  cell9OOccupied: "no"
+}
 
 
 
@@ -104,28 +106,53 @@ function draw() {
 function mousePressed() {
   let xPos = Math.floor(mouseX/cellWidth);
   let yPos = Math.floor(mouseY/cellHeight);
-  let xPos2 = Math.floor(mouseX/cellWidth);
-  let yPos2 = Math.floor(mouseY/cellHeight);
 
   //X
   if (grid[yPos][xPos] === 0 && oTurn === false) {
     grid[yPos][xPos] = 1;
     oTurn = true;
-    cell1.xOccupied = "yes";
-      console.log("X.");
+
+  if (grid[yPos][xPos] = 1){
+    cell1.XOccupied = "yes";
+      if (cell1.XOccupied === "yes"){
+        console.log("X.");
+
+      }
+    }
+    if (grid[yPos][xPos] === 1 && grid[yPos][xPos+1] === 1 && grid[yPos][xPos+2] === 1){
+      console.log("X Wins!");
+    }
   }
 
   //O
-  else if (grid[yPos2][xPos2] === 0 && oTurn === true) {
-    grid[yPos2][xPos2] = 2;
+  if (grid[yPos][xPos] === 0 && oTurn === true) {
+    grid[yPos][xPos] = 2;
     oTurn = false;
-    cell1.oOccupied = "yes";
-    if (cell1.oOccupied === "yes");
-      console.log("O.");
+
+    if (grid[yPos][xPos] = 2){
+      cell1.OOccupied = "yes";
+        if (cell1.OOccupied === "yes"){
+          console.log("O.");
+      }
+    }
+    // if (grid[yPos][xPos] === 0){
+
+    // }
   }
 }
 
-
+function whoWon() {
+  for (let y=0; y<ROWS; y++) {
+    for (let x=0; x<COLS; x++) {
+      if (grid[y][x] === 1){
+        console.log("X won!")
+      }
+        if (grid[y][x] === 2){
+        console.log("O won!")
+      }
+    }
+  }
+}
 
 function displayGrid(grid) {
   for (let y=0; y<ROWS; y++) {
@@ -135,7 +162,6 @@ function displayGrid(grid) {
       if (grid[y][x] === 0) {
         fill("white");
         rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
-
       }
 
       //X
@@ -151,12 +177,7 @@ function displayGrid(grid) {
   }
 }
 
-function whoWon() {
-  for (let y=0; y<ROWS; y++) {
-    for (let x=0; x<COLS; x++) {
-    }
-  }
-}
+
 
 
 
