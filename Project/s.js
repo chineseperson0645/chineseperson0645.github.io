@@ -146,8 +146,7 @@ function startScreen() {
 
 function endScreen() {
   if (mouseIsPressed){
-    hit = collidePointRect(mouseX, mouseY, 460, 220, 400, 40);
-
+    hit = collidePointRect(mouseX, mouseY, 460, 220, 400, 40)
   }
   if (hit) {
     fill("white");

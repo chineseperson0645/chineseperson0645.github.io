@@ -8,15 +8,18 @@
 
 //Rememeber//
 //To stop and reset everything once X or O wins
+//Remember to stop a function. You just call something else.
 
 //Extra for Experts
 
-//Grid//
-const ROWS = 3;
-const COLS = 3;
-let grid;
-let cellWidth;
-let cellHeight;
+let state = "start";
+
+//grids//
+const ROLLS = 3;
+const COLM = 3;
+let grids;
+let widthofCell;
+let heightofCell;
 
 //Functionality//
 let oTurn = false;
@@ -42,9 +45,9 @@ function preload() {
 
 function setup() {
   createCanvas(widthOfCanvas, heightOfCanvas);
-  cellWidth = width/COLS; //Overall Width divided by COLS value (# of COLS)
-  cellHeight = height/ROWS; //Overall Height divided by ROWS vlaue (# of ROWS)
-  grid = create2dArray(COLS, ROWS);
+  widthofCell = width/COLM; //Overall Width divided by COLM value (# of COLM)
+  heightofCell = height/ROLLS; //Overall Height divided by ROLLS vlaue (# of ROLLS)
+  grids = different2DArray(COLM, ROLLS);
 }
 
 
@@ -52,79 +55,107 @@ function setup() {
 function draw() {
   background(220);
 
-  displayGrid(grid);
-
-  startScreen()
+  displaygrids(grids);
 
   winCheck();
 
+  if (state === "start"){
+    startScreen();
+  }
   if (xWins === true){
-    xWinScreen;
+    xWinScreen();
   }
   if (oWins === true){
-    oWinScreen;
+    oWinScreen();
   }
   if (tied == true){
-    tieScreen;
+    tieScreen();
   }
 }
 
+//Essientially. If this state is this.
+//Call another thing to stop 
+//The current thing.
 
+//if statement already asked.
 
 function startScreen(){
-  
+  if (mouseIsPressed){
+    hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
+  }
+  if (hit) {
+    fill("white");
+  }
+  rect(0, 0, widthOfCanvas, heightOfCanvas);
+  fill("blue");
+  textSize(50);
+  text("Start!", 450, 250);
 }
 
+
 function xWinScreen(){
-  
+
+
 }
 
 function oWinScreen(){
-  
+  if (oWins){
+    
+  }
 }
 
 function tieScreen(){
-
+  if (mouseIsPressed){
+    hit = collidePointRect(mouseX, mouseY, 460, 220, 400, 40)
+  }
+  if (hit) {
+    fill("white");
+    state = "main"
+  }
+  rect(0, 0, widthOfCanvas, heightOfCanvas);
+  fill("blue");
+  textSize(50);
+  text("Want to die again?", 450, 250);
 }
 
 
 
 function mousePressed() {
-  let xPos = Math.floor(mouseX/cellWidth);
-  let yPos = Math.floor(mouseY/cellHeight);
+  let xPos = Math.floor(mouseX/widthofCell);
+  let yPos = Math.floor(mouseY/heightofCell);
 
   //X
-  if (grid[yPos][xPos] === 0 && oTurn === false) {
-    grid[yPos][xPos] = 1;
+  if (grids[yPos][xPos] === 0 && oTurn === false) {
+    grids[yPos][xPos] = 1;
     oTurn = true;
   }
 
 
   //O
-  if (grid[yPos][xPos] === 0 && oTurn === true) {
-    grid[yPos][xPos] = 2;
+  if (grids[yPos][xPos] === 0 && oTurn === true) {
+    grids[yPos][xPos] = 2;
     oTurn = false;
   }
 }
 
-function displayGrid(grid) {
-  for (let y=0; y<ROWS; y++) {
-    for (let x=0; x<COLS; x++) {
+function displaygrids(grids) {
+  for (let y=0; y<ROLLS; y++) {
+    for (let x=0; x<COLM; x++) {
 
       //Blank
-      if (grid[y][x] === 0) {
+      if (grids[y][x] === 0) {
         fill("white");
-        rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        rect(x*widthofCell, y*heightofCell, widthofCell, heightofCell);
       }
 
       //X
-      else if (grid[y][x] === 1) {
-        image(XImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+      else if (grids[y][x] === 1) {
+        image(XImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell);
       }
 
       //O
-      if (grid[y][x] === 2){
-        image(OImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+      if (grids[y][x] === 2){
+        image(OImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell);
       }
     }
   }
@@ -137,69 +168,70 @@ function winCheck(){
   // W, 0, 0
 
 //Checks for X win
-  if (grid[0][0] === 1 && grid[1][0] === 1 && grid[2][0] === 1 || //Down (Left)
-      grid[0][0] === 1 && grid[0][1] === 1 && grid[0][2] === 1 || //Across (Top)
-      grid[0][2] === 1 && grid[1][2] === 1 && grid[2][2] === 1 || //Down (Right)
-      grid[2][2] === 1 && grid[2][1] === 1 && grid[2][0] === 1 || //Across (Bottom)
-      grid[1][0] === 1 && grid[1][1] === 1 && grid[1][2] === 1 || //Across (Middle)
-      grid[0][0] === 1 && grid[1][1] === 1 && grid[2][2] === 1 || //Top Left --> Bottom Right
-      grid[0][2] === 1 && grid[1][1] === 1 && grid[2][0] === 1 ){ //Top Right --> Bottom Left
+  if (grids[0][0] === 1 && grids[1][0] === 1 && grids[2][0] === 1 || //Down (Left)
+      grids[0][0] === 1 && grids[0][1] === 1 && grids[0][2] === 1 || //Across (Top)
+      grids[0][2] === 1 && grids[1][2] === 1 && grids[2][2] === 1 || //Down (Right)
+      grids[2][2] === 1 && grids[2][1] === 1 && grids[2][0] === 1 || //Across (Bottom)
+      grids[1][0] === 1 && grids[1][1] === 1 && grids[1][2] === 1 || //Across (Middle)
+      grids[0][1] === 1 && grids[1][1] === 1 && grids[2][1] === 1 || //Down (Middle)
+      grids[0][0] === 1 && grids[1][1] === 1 && grids[2][2] === 1 || //Top Left --> Bottom Right
+      grids[0][2] === 1 && grids[1][1] === 1 && grids[2][0] === 1 ){ //Top Right --> Bottom Left
       xWins = true;
+
+      if (xWins === true){
+        state = "Xwin"
+        console.log("X Wins");
+    }
   }
 
 //Checks for O win
-  if (grid[0][0] === 2 && grid[1][0] === 2 && grid[2][0] === 2 || //Down (Left)
-      grid[0][0] === 2 && grid[0][1] === 2 && grid[0][2] === 2 || //Across (Top)
-      grid[0][2] === 2 && grid[1][2] === 2 && grid[2][2] === 2 || //Down (Right)
-      grid[2][2] === 2 && grid[2][1] === 2 && grid[2][0] === 2 || //Across (Bottom)
-      grid[1][0] === 2 && grid[1][1] === 2 && grid[1][2] === 2 || //Across (Middle)
-      grid[0][0] === 2 && grid[1][1] === 2 && grid[2][2] === 2 || //Top Left --> Bottom Right
-      grid[0][2] === 2 && grid[1][1] === 2 && grid[2][0] === 2 ){ //Top Right --> Bottom Left
+  if (grids[0][0] === 2 && grids[1][0] === 2 && grids[2][0] === 2 || //Down (Left)
+      grids[0][0] === 2 && grids[0][1] === 2 && grids[0][2] === 2 || //Across (Top)
+      grids[0][2] === 2 && grids[1][2] === 2 && grids[2][2] === 2 || //Down (Right)
+      grids[2][2] === 2 && grids[2][1] === 2 && grids[2][0] === 2 || //Across (Bottom)
+      grids[1][0] === 2 && grids[1][1] === 2 && grids[1][2] === 2 || //Across (Middle)
+      grids[0][1] === 2 && grids[1][1] === 2 && grids[2][1] === 2 || //Down (Middle)
+      grids[0][0] === 2 && grids[1][1] === 2 && grids[2][2] === 2 || //Top Left --> Bottom Right
+      grids[0][2] === 2 && grids[1][1] === 2 && grids[2][0] === 2 ){ //Top Right --> Bottom Left
       oWins = true;
+
+      if (oWins === true ){
+        state = "Owin"
+        console.log("O Wins");
+    }
   }
 
 //Checks for tie.
-  if (grid[0][0] !== 0  && grid[0][1] !== 0 && grid[0][2] !== 0 && //Across (Top)
-      grid[2][2] !== 0  && grid[2][1] !== 0 && grid[2][0] !== 0 && //Across (Bottom)
-      grid[1][0] !== 0  && grid[1][1] !== 0 && grid[1][2] !== 0 ){ //Across (Middle)
+  if (grids[0][0] !== 0  && grids[0][1] !== 0 && grids[0][2] !== 0 && //Across (Top)
+      grids[2][2] !== 0  && grids[2][1] !== 0 && grids[2][0] !== 0 && //Across (Bottom)
+      grids[1][0] !== 0  && grids[1][1] !== 0 && grids[1][2] !== 0 ){ //Across (Middle)
       tied = true;
-  }
 
-//Tie
-  if (xWins === false || oWins === false && tied === true){
-    console.log("tie.");
-  }
-
-//O Wins
-  if (oWins === true ){
-    console.log("O Wins");
-  }
-
-//X Wins
-  if (xWins === true){
-    console.log("X Wins");
+      if (xWins === false && oWins === false && tied === true){
+        state = "tied"
+        console.log("tie.");
+    }
   }
 }
 
-
-function create2dArray(COLS, ROWS) {
-  let emptyArray = [];
-  for (let y=0; y<ROWS; y++) {
-    emptyArray.push([]); 
+function different2DArray(COLM, ROLLS) {
+  let greenArray = [];
+  for (let y = 0; y < ROLLS; y++) {
+    greenArray.push(Array());
     //Creates another array within the Array
     //(by filling it with empty space)
 
-    for (let x=0; x<COLS; x++) {
-      emptyArray[y].push(0);
+    for (let x = 0; x < COLM; x++) {
+      greenArray[y].push(0);
     //Within the empty array (within an array)
-    //it pushes 0 values, mousePressed and displayGrid
+    //it pushes 0 values, mousePressed and displaygrids
     //Function off of these zero values by checking and 
     //Adding off of them according to their instructions
     }
   }
-  return emptyArray;
-  //Pushes emptyArray as the grid, check above within setup function
-  //for "grid = create2dArray(COLS, ROWS);"
+  return greenArray;
+  //Pushes greenArray as the grids, check above within setup function
+  //for "grids = different2DArray(COLM, ROLLS);"
 }
 
 //^
@@ -208,7 +240,7 @@ function create2dArray(COLS, ROWS) {
 // 0, 0, 0
 
 //^
-//According to the ROWS and COLS 
+//According to the ROLLS and COLM 
 //Values
 
 
@@ -277,26 +309,26 @@ function create2dArray(COLS, ROWS) {
 // }
 
 
-// if (grid[yPos][xPos] === 1){
+// if (grids[yPos][xPos] === 1){
 //   cell1XOccupied = "yes";
 //     if (cell1XOccupied === "yes"){
 //       console.log("X.");
 
 //     }
 //   }
-//   if (grid[yPos][xPos] === 1 && grid[yPos][xPos+1] === 1 && grid[yPos][xPos+2] === 1){
+//   if (grids[yPos][xPos] === 1 && grids[yPos][xPos+1] === 1 && grids[yPos][xPos+2] === 1){
 //     console.log("X Wins!");
 //   }
 // }
 
-// if (grid[yPos][xPos] === 2){
+// if (grids[yPos][xPos] === 2){
 //   cell1OOccupied = "yes";
 //     if (cell1OOccupied === "yes"){
 //       console.log("O.");
 
 //     }
 //   }
-// if (grid[yPos][xPos] === 2 && grid[yPos][xPos+1] === 2 && grid[yPos][xPos+2] === 2){
+// if (grids[yPos][xPos] === 2 && grids[yPos][xPos+1] === 2 && grids[yPos][xPos+2] === 2){
 //   console.log("O Wins!");
 // }
 // }
@@ -330,16 +362,16 @@ function create2dArray(COLS, ROWS) {
 //     cell9XOccupied: "no",
 //     cell9OOccupied: "no"
 //   };
-//   grid.push(cells);
+//   grids.push(cells);
 // }
 
-// if (grid[0][0] === 1 && grid[0][1] === 1 && grid[0][2] === 1){
+// if (grids[0][0] === 1 && grids[0][1] === 1 && grids[0][2] === 1){
 //   xWins = true;
 //   if (xWins === true){
 //     console.log("X Wins");
 //   }
 // }
-// if (grid[0][0] === 2 && grid[0][1] === 2 && grid[0][2] === 2){
+// if (grids[0][0] === 2 && grids[0][1] === 2 && grids[0][2] === 2){
 //   oWins = true;
 //     if (oWins === true){
 //       console.log("O Wins");
@@ -347,18 +379,18 @@ function create2dArray(COLS, ROWS) {
 // }
 
 // function whoWon() {
-//   for (let y=0; y<ROWS; y++) {
-//     for (let x=0; x<COLS; x++) {
-//       if (grid[y][x] === 1){
+//   for (let y=0; y<ROLLS; y++) {
+//     for (let x=0; x<COLM; x++) {
+//       if (grids[y][x] === 1){
 //         console.log("X won!")
 //       }
-//         if (grid[y][x] === 2){
+//         if (grids[y][x] === 2){
 //         console.log("O won!")
 //       }
 //     }
 //   }
 // }
 
-// grid[0][0] === 1 && grid[0][1] === 1 && grid[0][2] === 1 && //Across (Top)
-// grid[2][2] === 1 && grid[2][1] === 1 && grid[2][0] === 1 && //Across (Bottom)
-// grid[1][0] === 1 && grid[1][1] === 1 && grid[1][2] === 1 ){ //Across (Middle)
+// grids[0][0] === 1 && grids[0][1] === 1 && grids[0][2] === 1 && //Across (Top)
+// grids[2][2] === 1 && grids[2][1] === 1 && grids[2][0] === 1 && //Across (Bottom)
+// grids[1][0] === 1 && grids[1][1] === 1 && grids[1][2] === 1 ){ //Across (Middle)
