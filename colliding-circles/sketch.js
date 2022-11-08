@@ -9,6 +9,11 @@ function setup() {
   nums.push(spawnBall(100, 100));
 }
 
+function preload(){
+  collisionSound = loadSound
+  bgSound = loadSound
+}
+
 function draw() {
   background(220);
 
