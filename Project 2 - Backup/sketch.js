@@ -13,6 +13,7 @@
 //Extra for Experts
 
 let state = "start";
+let hit = false;
 
 //grids//
 const ROLLS = 3;
@@ -84,7 +85,7 @@ function startScreen(){
     hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
   }
   if (hit) {
-    fill("white");
+    state = "main";
   }
   rect(0, 0, widthOfCanvas, heightOfCanvas);
   fill("blue");
@@ -110,7 +111,7 @@ function tieScreen(){
   }
   if (hit) {
     fill("white");
-    state = "main"
+    state = "start"
   }
   rect(0, 0, widthOfCanvas, heightOfCanvas);
   fill("blue");
@@ -121,6 +122,8 @@ function tieScreen(){
 
 
 function mousePressed() {
+
+if (state === "main"){
   let xPos = Math.floor(mouseX/widthofCell);
   let yPos = Math.floor(mouseY/heightofCell);
 
@@ -135,6 +138,7 @@ function mousePressed() {
   if (grids[yPos][xPos] === 0 && oTurn === true) {
     grids[yPos][xPos] = 2;
     oTurn = false;
+    }
   }
 }
 
@@ -163,6 +167,7 @@ function displaygrids(grids) {
 
 
 function winCheck(){
+  if (state === "main") {
   // 0, 0, W
   // 0, W, 0
   // W, 0, 0
@@ -210,10 +215,10 @@ function winCheck(){
       if (xWins === false && oWins === false && tied === true){
         state = "tied"
         console.log("tie.");
+      }
     }
   }
 }
-
 function different2DArray(COLM, ROLLS) {
   let greenArray = [];
   for (let y = 0; y < ROLLS; y++) {
