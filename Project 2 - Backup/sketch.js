@@ -69,10 +69,17 @@ function draw() {
   if (oWins === true){
     oWinScreen();
   }
-  if (tied == true){
+  if (tied === true){
     tieScreen();
   }
 }
+
+
+//State Names
+//start
+//xWin
+//oWin
+//tied
 
 //Essientially. If this state is this.
 //Call another thing to stop 
@@ -81,48 +88,70 @@ function draw() {
 //if statement already asked.
 
 function startScreen(){
+if (state === "start"){
   if (mouseIsPressed){
     hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
   }
-  if (hit) {
-    state = "main";
+    if (hit) {
+      state = "main";
+    }
+      if (state === "start"){
+      rect(0, 0, widthOfCanvas, heightOfCanvas);
+      fill("blue");
+      textSize(50);
+      text("Start!", 450, 250);
+    }
   }
-  rect(0, 0, widthOfCanvas, heightOfCanvas);
-  fill("blue");
-  textSize(50);
-  text("Start!", 450, 250);
 }
 
 
 function xWinScreen(){
+    if (mouseIsPressed){
+      hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
+    }
+      if (hit) {
+        state = "start";
+      }
+        rect(0, 0, widthOfCanvas, heightOfCanvas);
+        fill("blue");
+        textSize(50);
+        text("Want to play again?!", 450, 250);
+  }
 
-
-}
 
 function oWinScreen(){
-  if (oWins){
-    
+    if (mouseIsPressed){
+      hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
+    }
+    if (hit) {
+      state = "start";
+    }
+    rect(0, 0, widthOfCanvas, heightOfCanvas);
+    fill("blue");
+    textSize(50);
+    text("Want to play again?!", 450, 250);
   }
-}
+
 
 function tieScreen(){
-  if (mouseIsPressed){
-    hit = collidePointRect(mouseX, mouseY, 460, 220, 400, 40)
+    state = "tied";
+
+    if (mouseIsPressed){
+      hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
+    }
+    if (hit) {
+      state = "start";
+    }
+    rect(0, 0, widthOfCanvas, heightOfCanvas);
+    fill("blue");
+    textSize(50);
+    text("Want to die again?", 450, 250);
   }
-  if (hit) {
-    fill("white");
-    state = "start"
-  }
-  rect(0, 0, widthOfCanvas, heightOfCanvas);
-  fill("blue");
-  textSize(50);
-  text("Want to die again?", 450, 250);
-}
+
 
 
 
 function mousePressed() {
-
 if (state === "main"){
   let xPos = Math.floor(mouseX/widthofCell);
   let yPos = Math.floor(mouseY/heightofCell);
@@ -184,7 +213,7 @@ function winCheck(){
       xWins = true;
 
       if (xWins === true){
-        state = "Xwin"
+        state = "xWin"
         console.log("X Wins");
     }
   }
@@ -201,7 +230,7 @@ function winCheck(){
       oWins = true;
 
       if (oWins === true ){
-        state = "Owin"
+        state = "oWin"
         console.log("O Wins");
     }
   }
