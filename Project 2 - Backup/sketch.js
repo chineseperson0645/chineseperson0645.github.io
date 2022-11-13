@@ -1,21 +1,25 @@
 // X's and O's
-// Michael
+// Michael Gao
 // 11/3/22
 
-//0, 0, 0
-//0, 0, 0
-//0, 0, 0
-
 //Rememeber//
-//To stop and reset everything once X or O wins
 //Remember to stop a function. You just call something else.
 
-//Extra for Experts
+//0, 0, 0
+//0, 0, 0
+//0, 0, 0
 
-let state = "start";
-let hit = false;
+//Extra for Experts//
+
+
+/////////////////////////////////////////////////////////////////////
+
+//Global Variables/ Draw Loop/ Setup
+
+/////////////////////////////////////////////////////////////////////
 
 //grids//
+let greenArray = [];
 const ROLLS = 3;
 const COLM = 3;
 let grids;
@@ -27,6 +31,8 @@ let oTurn = false;
 let xWins = false;
 let oWins = false;
 let tied = false;
+let hit = false;
+let state = "start";
 
 //Canvas Width and Height//
 let widthOfCanvas = 800;
@@ -42,8 +48,7 @@ function preload() {
   XImg = loadImage('X.png');
 }
 
-
-
+//SETUP//
 function setup() {
   createCanvas(widthOfCanvas, heightOfCanvas);
   widthofCell = width/COLM; //Overall Width divided by COLM value (# of COLM)
@@ -51,105 +56,107 @@ function setup() {
   grids = different2DArray(COLM, ROLLS);
 }
 
-
-
+//Draw Loop//
 function draw() {
   background(220);
 
   displaygrids(grids);
 
-  winCheck();
+  winDetect();
 
+  startScreen();
+  xWinScreen();
+  oWinScreen();
+  tieScreen();
+  
+}
+
+/////////////////////////////////////////////////////////////////////
+
+//Screens
+
+/////////////////////////////////////////////////////////////////////
+
+function startScreen(){
   if (state === "start"){
-    startScreen();
+    rect(0, 0, widthOfCanvas, heightOfCanvas);
+    fill("blue");
+    textSize(50);
+    text("Start!", widthOfCanvas/2-35, heightOfCanvas/2);
+    hitBox();
+    }
   }
-  if (xWins === true){
-    xWinScreen();
+
+function xWinScreen(){
+  if (state === "xWin"){
+    rect(0, 0, widthOfCanvas, heightOfCanvas);
+    fill("blue");
+    textSize(50);
+    text("X Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+    hitBox();
+    resetter();
+    }
   }
-  if (oWins === true){
-    oWinScreen();
+
+function oWinScreen(){
+  if (state === "oWin"){
+    rect(0, 0, widthOfCanvas, heightOfCanvas);
+    fill("blue");
+    textSize(50);
+    text("O Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+    hitBox();
+    resetter();
+    }
   }
-  if (tied === true){
-    tieScreen();
+
+function tieScreen(){
+  if (state === "tied"){
+    rect(0, 0, widthOfCanvas, heightOfCanvas);
+    fill("blue");
+    textSize(50);
+    text("Tied! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+    hitBox();
+    resetter();
   }
 }
 
+function resetter(){
+  for (let y=0; y<ROLLS; y++) {
+    for (let x=0; x<COLM; x++) {
+      greenArray[y][x] = 0;
+      oTurn = false;
+    }
+  }
+}
 
-//State Names
-//start
-//xWin
-//oWin
-//tied
-
-//Essientially. If this state is this.
-//Call another thing to stop 
-//The current thing.
-
-//if statement already asked.
-
-function startScreen(){
-if (state === "start"){
+function hitBox(){
   if (mouseIsPressed){
-    hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
+    hit = collidePointRect(mouseX, mouseY, widthOfCanvas/2-35, heightOfCanvas/2-20, 100, 20);
   }
     if (hit) {
       state = "main";
+      oWins = false;
+      xWins = false;
+      tied = false;
     }
-      if (state === "start"){
-      rect(0, 0, widthOfCanvas, heightOfCanvas);
-      fill("blue");
-      textSize(50);
-      text("Start!", 450, 250);
-    }
-  }
 }
 
-
-function xWinScreen(){
-    if (mouseIsPressed){
-      hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
-    }
-      if (hit) {
-        state = "start";
-      }
-        rect(0, 0, widthOfCanvas, heightOfCanvas);
-        fill("blue");
-        textSize(50);
-        text("Want to play again?!", 450, 250);
-  }
-
-
-function oWinScreen(){
-    if (mouseIsPressed){
-      hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
-    }
-    if (hit) {
-      state = "start";
-    }
+function screens(){
+  if (state === "tied"){
     rect(0, 0, widthOfCanvas, heightOfCanvas);
     fill("blue");
     textSize(50);
-    text("Want to play again?!", 450, 250);
+    text("Tied! Again?", 450, 250);
+    resetter();
+    hitBox();
+    }
   }
 
+/////////////////////////////////////////////////////////////////////
 
-function tieScreen(){
-    state = "tied";
+//Main Functions
 
-    if (mouseIsPressed){
-      hit = collidePointRect(mouseX, mouseY, 450, 230, 100, 20);
-    }
-    if (hit) {
-      state = "start";
-    }
-    rect(0, 0, widthOfCanvas, heightOfCanvas);
-    fill("blue");
-    textSize(50);
-    text("Want to die again?", 450, 250);
-  }
-
-
-
+/////////////////////////////////////////////////////////////////////
 
 function mousePressed() {
 if (state === "main"){
@@ -194,8 +201,7 @@ function displaygrids(grids) {
   }
 }
 
-
-function winCheck(){
+function winDetect(){
   if (state === "main") {
   // 0, 0, W
   // 0, W, 0
@@ -210,12 +216,10 @@ function winCheck(){
       grids[0][1] === 1 && grids[1][1] === 1 && grids[2][1] === 1 || //Down (Middle)
       grids[0][0] === 1 && grids[1][1] === 1 && grids[2][2] === 1 || //Top Left --> Bottom Right
       grids[0][2] === 1 && grids[1][1] === 1 && grids[2][0] === 1 ){ //Top Right --> Bottom Left
+      
       xWins = true;
-
-      if (xWins === true){
-        state = "xWin"
-        console.log("X Wins");
-    }
+      state = "xWin";
+      console.log("X Wins");
   }
 
 //Checks for O win
@@ -227,20 +231,18 @@ function winCheck(){
       grids[0][1] === 2 && grids[1][1] === 2 && grids[2][1] === 2 || //Down (Middle)
       grids[0][0] === 2 && grids[1][1] === 2 && grids[2][2] === 2 || //Top Left --> Bottom Right
       grids[0][2] === 2 && grids[1][1] === 2 && grids[2][0] === 2 ){ //Top Right --> Bottom Left
+      
       oWins = true;
-
-      if (oWins === true ){
-        state = "oWin"
-        console.log("O Wins");
-    }
+      state = "oWin";
+      console.log("O Wins");
   }
 
 //Checks for tie.
   if (grids[0][0] !== 0  && grids[0][1] !== 0 && grids[0][2] !== 0 && //Across (Top)
       grids[2][2] !== 0  && grids[2][1] !== 0 && grids[2][0] !== 0 && //Across (Bottom)
-      grids[1][0] !== 0  && grids[1][1] !== 0 && grids[1][2] !== 0 ){ //Across (Middle)
-      tied = true;
+      grids[1][0] !== 0  && grids[1][1] !== 0 && grids[1][2] !== 0 ){  //Across (Middle)
 
+      tied = true;
       if (xWins === false && oWins === false && tied === true){
         state = "tied"
         console.log("tie.");
@@ -248,38 +250,23 @@ function winCheck(){
     }
   }
 }
+
+
 function different2DArray(COLM, ROLLS) {
-  let greenArray = [];
   for (let y = 0; y < ROLLS; y++) {
     greenArray.push(Array());
-    //Creates another array within the Array
-    //(by filling it with empty space)
-
     for (let x = 0; x < COLM; x++) {
       greenArray[y].push(0);
-    //Within the empty array (within an array)
-    //it pushes 0 values, mousePressed and displaygrids
-    //Function off of these zero values by checking and 
-    //Adding off of them according to their instructions
     }
   }
   return greenArray;
-  //Pushes greenArray as the grids, check above within setup function
-  //for "grids = different2DArray(COLM, ROLLS);"
 }
 
-//^
-// 0, 0, 0
-// 0, 0, 0
-// 0, 0, 0
+//////////////////////////////////////////////////////////////////////
 
-//^
-//According to the ROLLS and COLM 
-//Values
+//Notes/ Doodles
 
-
-
-//Notes/Doodles//
+/////////////////////////////////////////////////////////////////////
 
 // class cell1 {
 //   constructor (xOccupied, yOccupied);
@@ -428,3 +415,22 @@ function different2DArray(COLM, ROLLS) {
 // grids[0][0] === 1 && grids[0][1] === 1 && grids[0][2] === 1 && //Across (Top)
 // grids[2][2] === 1 && grids[2][1] === 1 && grids[2][0] === 1 && //Across (Bottom)
 // grids[1][0] === 1 && grids[1][1] === 1 && grids[1][2] === 1 ){ //Across (Middle)
+
+// function different2DArray(COLM, ROLLS) {
+//   for (let y = 0; y < ROLLS; y++) {
+//     greenArray.push(Array());
+//     //Creates another array within the Array
+//     //(by filling it with empty space)
+
+//     for (let x = 0; x < COLM; x++) {
+//       greenArray[y].push(0);
+//     //Within the empty array (within an array)
+//     //it pushes 0 values, mousePressed and displaygrids
+//     //Function off of these zero values by checking and 
+//     //Adding off of them according to their instructions
+//     }
+//   }
+//   return greenArray;
+//   //Pushes greenArray as the grids, check above within setup function
+//   //for "grids = different2DArray(COLM, ROLLS);"
+// }
