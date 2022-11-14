@@ -4,13 +4,17 @@
 
 //Rememeber//
 //Remember to stop a function. You just call something else.
+//Remove Img Backgroud
+//Possibly Imploment AI
+//Add Title
 
 //0, 0, 0
 //0, 0, 0
 //0, 0, 0
 
 //Extra for Experts//
-
+//Set a font
+//Experimented with "classes" (didn't implemenet though).
 
 /////////////////////////////////////////////////////////////////////
 
@@ -18,7 +22,7 @@
 
 /////////////////////////////////////////////////////////////////////
 
-//grids//
+//Grids//
 let greenArray = [];
 const ROLLS = 3;
 const COLM = 3;
@@ -48,7 +52,6 @@ function preload() {
   XImg = loadImage('X.png');
 }
 
-//SETUP//
 function setup() {
   createCanvas(widthOfCanvas, heightOfCanvas);
   widthofCell = width/COLM; //Overall Width divided by COLM value (# of COLM)
@@ -56,19 +59,11 @@ function setup() {
   grids = different2DArray(COLM, ROLLS);
 }
 
-//Draw Loop//
 function draw() {
   background(220);
-
   displaygrids(grids);
-
+  screens();
   winDetect();
-
-  startScreen();
-  xWinScreen();
-  oWinScreen();
-  tieScreen();
-  
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -77,46 +72,29 @@ function draw() {
 
 /////////////////////////////////////////////////////////////////////
 
-function startScreen(){
+function screens(){
   if (state === "start"){
-    rect(0, 0, widthOfCanvas, heightOfCanvas);
-    fill("blue");
-    textSize(50);
-    text("Start!", widthOfCanvas/2-35, heightOfCanvas/2);
+    formatText();
+    text("Start!", widthOfCanvas/2, heightOfCanvas/2);
     hitBox();
-    }
   }
-
-function xWinScreen(){
-  if (state === "xWin"){
-    rect(0, 0, widthOfCanvas, heightOfCanvas);
-    fill("blue");
-    textSize(50);
-    text("X Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
-    hitBox();
-    resetter();
-    }
-  }
-
-function oWinScreen(){
-  if (state === "oWin"){
-    rect(0, 0, widthOfCanvas, heightOfCanvas);
-    fill("blue");
-    textSize(50);
-    text("O Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
-    hitBox();
-    resetter();
-    }
-  }
-
-function tieScreen(){
   if (state === "tied"){
-    rect(0, 0, widthOfCanvas, heightOfCanvas);
-    fill("blue");
-    textSize(50);
-    text("Tied! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
-    hitBox();
+    formatText();
+    text("Tied! Again?", widthOfCanvas/2, heightOfCanvas/2);
+  }
+
+  if (state === "oWin"){
+    formatText();
+    text("O Wins! Again?", widthOfCanvas/2, heightOfCanvas/2);
+  }
+
+  if (state === "xWin"){
+    formatText();
+    text("X Wins! Again?", widthOfCanvas/2, heightOfCanvas/2);
+  }
+  if (state === "xWin" || state === "oWin" || state === "tied"){
     resetter();
+    hitBox();
   }
 }
 
@@ -131,26 +109,23 @@ function resetter(){
 
 function hitBox(){
   if (mouseIsPressed){
-    hit = collidePointRect(mouseX, mouseY, widthOfCanvas/2-35, heightOfCanvas/2-20, 100, 20);
+    hit = collidePointRect(mouseX, mouseY, widthOfCanvas/2, heightOfCanvas/2, 100, 20);
   }
-    if (hit) {
-      state = "main";
-      oWins = false;
-      xWins = false;
-      tied = false;
-    }
+  if (hit) {
+    state = "main";
+    oWins = false;
+    xWins = false;
+    tied = false;
+  }
 }
 
-function screens(){
-  if (state === "tied"){
-    rect(0, 0, widthOfCanvas, heightOfCanvas);
-    fill("blue");
-    textSize(50);
-    text("Tied! Again?", 450, 250);
-    resetter();
-    hitBox();
-    }
-  }
+function formatText(){
+  rect(0, 0, widthOfCanvas, heightOfCanvas);
+  fill("blue");
+  textAlign(CENTER);
+  textSize(50);
+  textFont("impact");
+}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -168,7 +143,6 @@ if (state === "main"){
     grids[yPos][xPos] = 1;
     oTurn = true;
   }
-
 
   //O
   if (grids[yPos][xPos] === 0 && oTurn === true) {
@@ -190,11 +164,15 @@ function displaygrids(grids) {
 
       //X
       else if (grids[y][x] === 1) {
+        fill("white");
+        rect(x*widthofCell, y*heightofCell, widthofCell, heightofCell);
         image(XImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell);
       }
 
       //O
-      if (grids[y][x] === 2){
+      else if (grids[y][x] === 2){
+        fill("white");
+        rect(x*widthofCell, y*heightofCell, widthofCell, heightofCell);
         image(OImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell);
       }
     }
@@ -203,6 +181,7 @@ function displaygrids(grids) {
 
 function winDetect(){
   if (state === "main") {
+
   // 0, 0, W
   // 0, W, 0
   // W, 0, 0
@@ -244,13 +223,12 @@ function winDetect(){
 
       tied = true;
       if (xWins === false && oWins === false && tied === true){
-        state = "tied"
+        state = "tied";
         console.log("tie.");
       }
     }
   }
 }
-
 
 function different2DArray(COLM, ROLLS) {
   for (let y = 0; y < ROLLS; y++) {
@@ -434,3 +412,46 @@ function different2DArray(COLM, ROLLS) {
 //   //Pushes greenArray as the grids, check above within setup function
 //   //for "grids = different2DArray(COLM, ROLLS);"
 // }
+
+  // function startScreen(){
+  //   if (state === "start"){
+  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     fill("blue");
+  //     textSize(50);
+  //     text("Start!", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     hitBox();
+  //     }
+  //   }
+  
+  // function xWinScreen(){
+  //   if (state === "xWin"){
+  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     fill("blue");
+  //     textSize(50);
+  //     text("X Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     hitBox();
+  //     resetter();
+  //     }
+  //   }
+  
+  // function oWinScreen(){
+  //   if (state === "oWin"){
+  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     fill("blue");
+  //     textSize(50);
+  //     text("O Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     hitBox();
+  //     resetter();
+  //     }
+  //   }
+  
+  // function tieScreen(){
+  //   if (state === "tied"){
+  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     fill("blue");
+  //     textSize(50);
+  //     text("Tied! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     hitBox();
+  //     resetter();
+  //   }
+  // }
