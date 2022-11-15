@@ -2,19 +2,10 @@
 // Michael Gao
 // 11/3/22
 
-//Rememeber//
-//Remember to stop a function. You just call something else.
-//Remove Img Backgroud
-//Possibly Imploment AI
-//Add Title
-
-//0, 0, 0
-//0, 0, 0
-//0, 0, 0
-
 //Extra for Experts//
+//"It's proficiency is in it's simplicity" - Michael Gao
 //Set a font
-//Experimented with "classes" (didn't implemenet though).
+//Experimented/Attempted with "classes" (Before the 11/14/2022 OOP Demos, didn't implemenet though).
 
 /////////////////////////////////////////////////////////////////////
 
@@ -22,25 +13,21 @@
 
 /////////////////////////////////////////////////////////////////////
 
-//Grids//
-let greenArray = [];
+//Grids GV//
+let gridArray = [];
 const ROLLS = 3;
 const COLM = 3;
 let grids;
 let widthofCell;
 let heightofCell;
 
-//Functionality//
+//Functionality GV//
 let oTurn = false;
 let xWins = false;
 let oWins = false;
 let tied = false;
 let hit = false;
 let state = "start";
-
-//Canvas Width and Height//
-let widthOfCanvas = 800;
-let heightOfCanvas = 700; 
 
 //X and O Images//
 let OImg;
@@ -53,7 +40,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(widthOfCanvas, heightOfCanvas);
+  createCanvas(800, 700);
   widthofCell = width/COLM; //Overall Width divided by COLM value (# of COLM)
   heightofCell = height/ROLLS; //Overall Height divided by ROLLS vlaue (# of ROLLS)
   grids = different2DArray(COLM, ROLLS);
@@ -73,24 +60,25 @@ function draw() {
 /////////////////////////////////////////////////////////////////////
 
 function screens(){
+  //Switches between states (screens)
   if (state === "start"){
     formatText();
-    text("Start!", widthOfCanvas/2, heightOfCanvas/2);
+    text("Start!", width/2, height/2);
     hitBox();
   }
   if (state === "tied"){
     formatText();
-    text("Tied! Again?", widthOfCanvas/2, heightOfCanvas/2);
+    text("Tied! Again?", width/2, height/2);
   }
 
   if (state === "oWin"){
     formatText();
-    text("O Wins! Again?", widthOfCanvas/2, heightOfCanvas/2);
+    text("O Wins! Again?", width/2, height/2);
   }
 
   if (state === "xWin"){
     formatText();
-    text("X Wins! Again?", widthOfCanvas/2, heightOfCanvas/2);
+    text("X Wins! Again?", width/2, height/2);
   }
   if (state === "xWin" || state === "oWin" || state === "tied"){
     resetter();
@@ -99,19 +87,24 @@ function screens(){
 }
 
 function resetter(){
+  //fills all blocks with blank space (0) and puts X turn first.
   for (let y=0; y<ROLLS; y++) {
     for (let x=0; x<COLM; x++) {
-      greenArray[y][x] = 0;
+      gridArray[y][x] = 0;
       oTurn = false;
     }
   }
 }
 
 function hitBox(){
+let a = 60;
+
   if (mouseIsPressed){
-    hit = collidePointRect(mouseX, mouseY, widthOfCanvas/2, heightOfCanvas/2, 100, 20);
+    hit = collidePointRect(mouseX, mouseY, width/2 - a, height/2 - a, a*2, a);
   }
+
   if (hit) {
+    //Acts as screen switcher and additional reseter
     state = "main";
     oWins = false;
     xWins = false;
@@ -120,11 +113,11 @@ function hitBox(){
 }
 
 function formatText(){
-  rect(0, 0, widthOfCanvas, heightOfCanvas);
+  rect(0, 0, width, height);
   fill("blue");
   textAlign(CENTER);
   textSize(50);
-  textFont("impact");
+  textFont("impact"); 
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -138,14 +131,14 @@ if (state === "main"){
   let xPos = Math.floor(mouseX/widthofCell);
   let yPos = Math.floor(mouseY/heightofCell);
 
-  //X
-  if (grids[yPos][xPos] === 0 && oTurn === false) {
+  //X (X = 1)
+  if (grids[yPos][xPos] === 0 && oTurn === false) { //Swtiches turns
     grids[yPos][xPos] = 1;
     oTurn = true;
   }
 
-  //O
-  if (grids[yPos][xPos] === 0 && oTurn === true) {
+  //O (O = 2)
+  if (grids[yPos][xPos] === 0 && oTurn === true) { //Swtiches turns
     grids[yPos][xPos] = 2;
     oTurn = false;
     }
@@ -164,13 +157,15 @@ function displaygrids(grids) {
 
       //X
       else if (grids[y][x] === 1) {
+        //Eason helped me here.
         fill("white");
-        rect(x*widthofCell, y*heightofCell, widthofCell, heightofCell);
-        image(XImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell);
+        rect(x*widthofCell, y*heightofCell, widthofCell, heightofCell); 
+        image(XImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell); 
       }
 
       //O
       else if (grids[y][x] === 2){
+        //Eason helped me here.
         fill("white");
         rect(x*widthofCell, y*heightofCell, widthofCell, heightofCell);
         image(OImg, x*widthofCell, y*heightofCell, widthofCell, heightofCell);
@@ -180,71 +175,74 @@ function displaygrids(grids) {
 }
 
 function winDetect(){
+  //Karar helped me figure out logic for this section.
   if (state === "main") {
 
-  // 0, 0, W
-  // 0, W, 0
-  // W, 0, 0
-
-//Checks for X win
-  if (grids[0][0] === 1 && grids[1][0] === 1 && grids[2][0] === 1 || //Down (Left)
-      grids[0][0] === 1 && grids[0][1] === 1 && grids[0][2] === 1 || //Across (Top)
-      grids[0][2] === 1 && grids[1][2] === 1 && grids[2][2] === 1 || //Down (Right)
-      grids[2][2] === 1 && grids[2][1] === 1 && grids[2][0] === 1 || //Across (Bottom)
-      grids[1][0] === 1 && grids[1][1] === 1 && grids[1][2] === 1 || //Across (Middle)
-      grids[0][1] === 1 && grids[1][1] === 1 && grids[2][1] === 1 || //Down (Middle)
-      grids[0][0] === 1 && grids[1][1] === 1 && grids[2][2] === 1 || //Top Left --> Bottom Right
-      grids[0][2] === 1 && grids[1][1] === 1 && grids[2][0] === 1 ){ //Top Right --> Bottom Left
+//Checks for X win by searching for input 1 in all win combos
+    if (grids[0][0] === 1 && grids[1][0] === 1 && grids[2][0] === 1 || //Down (Left)
+        grids[0][0] === 1 && grids[0][1] === 1 && grids[0][2] === 1 || //Across (Top)
+        grids[0][2] === 1 && grids[1][2] === 1 && grids[2][2] === 1 || //Down (Right)
+        grids[2][2] === 1 && grids[2][1] === 1 && grids[2][0] === 1 || //Across (Bottom)
+        grids[1][0] === 1 && grids[1][1] === 1 && grids[1][2] === 1 || //Across (Middle)
+        grids[0][1] === 1 && grids[1][1] === 1 && grids[2][1] === 1 || //Down (Middle)
+        grids[0][0] === 1 && grids[1][1] === 1 && grids[2][2] === 1 || //Top Left --> Bottom Right
+        grids[0][2] === 1 && grids[1][1] === 1 && grids[2][0] === 1 ){ //Top Right --> Bottom Left
       
       xWins = true;
       state = "xWin";
       console.log("X Wins");
   }
 
-//Checks for O win
-  if (grids[0][0] === 2 && grids[1][0] === 2 && grids[2][0] === 2 || //Down (Left)
-      grids[0][0] === 2 && grids[0][1] === 2 && grids[0][2] === 2 || //Across (Top)
-      grids[0][2] === 2 && grids[1][2] === 2 && grids[2][2] === 2 || //Down (Right)
-      grids[2][2] === 2 && grids[2][1] === 2 && grids[2][0] === 2 || //Across (Bottom)
-      grids[1][0] === 2 && grids[1][1] === 2 && grids[1][2] === 2 || //Across (Middle)
-      grids[0][1] === 2 && grids[1][1] === 2 && grids[2][1] === 2 || //Down (Middle)
-      grids[0][0] === 2 && grids[1][1] === 2 && grids[2][2] === 2 || //Top Left --> Bottom Right
-      grids[0][2] === 2 && grids[1][1] === 2 && grids[2][0] === 2 ){ //Top Right --> Bottom Left
+//Checks for O win by searching for input 2 in all win combos
+    if (grids[0][0] === 2 && grids[1][0] === 2 && grids[2][0] === 2 || //Down (Left)
+        grids[0][0] === 2 && grids[0][1] === 2 && grids[0][2] === 2 || //Across (Top)
+        grids[0][2] === 2 && grids[1][2] === 2 && grids[2][2] === 2 || //Down (Right)
+        grids[2][2] === 2 && grids[2][1] === 2 && grids[2][0] === 2 || //Across (Bottom)
+        grids[1][0] === 2 && grids[1][1] === 2 && grids[1][2] === 2 || //Across (Middle)
+        grids[0][1] === 2 && grids[1][1] === 2 && grids[2][1] === 2 || //Down (Middle)
+        grids[0][0] === 2 && grids[1][1] === 2 && grids[2][2] === 2 || //Top Left --> Bottom Right
+        grids[0][2] === 2 && grids[1][1] === 2 && grids[2][0] === 2 ){ //Top Right --> Bottom Left
       
       oWins = true;
       state = "oWin";
-      console.log("O Wins");
+      console.log("O Wins"); //helps debug
   }
 
-//Checks for tie.
-  if (grids[0][0] !== 0  && grids[0][1] !== 0 && grids[0][2] !== 0 && //Across (Top)
-      grids[2][2] !== 0  && grids[2][1] !== 0 && grids[2][0] !== 0 && //Across (Bottom)
-      grids[1][0] !== 0  && grids[1][1] !== 0 && grids[1][2] !== 0 ){  //Across (Middle)
+//Checks for tie by checking if box is not filled with a blank space (0).
+    if (grids[0][0] !== 0  && grids[0][1] !== 0 && grids[0][2] !== 0 && //Across (Top)
+        grids[2][2] !== 0  && grids[2][1] !== 0 && grids[2][0] !== 0 && //Across (Bottom)
+        grids[1][0] !== 0  && grids[1][1] !== 0 && grids[1][2] !== 0 ){  //Across (Middle)
 
       tied = true;
-      if (xWins === false && oWins === false && tied === true){
+
+      if (xWins === false && oWins === false && tied === true){ //To ensure win is called first
         state = "tied";
-        console.log("tie.");
+        console.log("tie."); //helps debug
       }
     }
   }
 }
 
+//Please see bottom notes/doodles for comments on different2DArray
 function different2DArray(COLM, ROLLS) {
   for (let y = 0; y < ROLLS; y++) {
-    greenArray.push(Array());
+    gridArray.push(Array());
     for (let x = 0; x < COLM; x++) {
-      greenArray[y].push(0);
+      gridArray[y].push(0);
     }
   }
-  return greenArray;
+  return gridArray;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-//Notes/ Doodles
+//Notes/Doodles/Credits
 
 /////////////////////////////////////////////////////////////////////
+
+
+//Eason helped me get transparent BG on my img working properly.
+//Karar helped me figure out logic for winDetect.
 
 // class cell1 {
 //   constructor (xOccupied, yOccupied);
@@ -396,39 +394,39 @@ function different2DArray(COLM, ROLLS) {
 
 // function different2DArray(COLM, ROLLS) {
 //   for (let y = 0; y < ROLLS; y++) {
-//     greenArray.push(Array());
+//     gridArray.push(Array());
 //     //Creates another array within the Array
 //     //(by filling it with empty space)
 
 //     for (let x = 0; x < COLM; x++) {
-//       greenArray[y].push(0);
+//       gridArray[y].push(0);
 //     //Within the empty array (within an array)
 //     //it pushes 0 values, mousePressed and displaygrids
 //     //Function off of these zero values by checking and 
 //     //Adding off of them according to their instructions
 //     }
 //   }
-//   return greenArray;
-//   //Pushes greenArray as the grids, check above within setup function
+//   return gridArray;
+//   //Pushes gridArray as the grids, check above within setup function
 //   //for "grids = different2DArray(COLM, ROLLS);"
 // }
 
   // function startScreen(){
   //   if (state === "start"){
-  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     rect(0, 0, width, height);
   //     fill("blue");
   //     textSize(50);
-  //     text("Start!", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     text("Start!", width/2-35, height/2);
   //     hitBox();
   //     }
   //   }
   
   // function xWinScreen(){
   //   if (state === "xWin"){
-  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     rect(0, 0, width, height);
   //     fill("blue");
   //     textSize(50);
-  //     text("X Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     text("X Wins! Again?", width/2-35, height/2);
   //     hitBox();
   //     resetter();
   //     }
@@ -436,10 +434,10 @@ function different2DArray(COLM, ROLLS) {
   
   // function oWinScreen(){
   //   if (state === "oWin"){
-  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     rect(0, 0, width, height);
   //     fill("blue");
   //     textSize(50);
-  //     text("O Wins! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     text("O Wins! Again?", width/2-35, height/2);
   //     hitBox();
   //     resetter();
   //     }
@@ -447,10 +445,10 @@ function different2DArray(COLM, ROLLS) {
   
   // function tieScreen(){
   //   if (state === "tied"){
-  //     rect(0, 0, widthOfCanvas, heightOfCanvas);
+  //     rect(0, 0, width, height);
   //     fill("blue");
   //     textSize(50);
-  //     text("Tied! Again?", widthOfCanvas/2-35, heightOfCanvas/2);
+  //     text("Tied! Again?", width/2-35, height/2);
   //     hitBox();
   //     resetter();
   //   }
