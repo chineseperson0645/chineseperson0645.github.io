@@ -40,27 +40,29 @@ class Walker {
   }
 }
 
-let michael; 
-let katherine;
+let walkerArray = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  michael = new Walker(width/2, height/2);
-  katherine = new Walker(200, 300);
-  katherine.color = "black";
-  amogus = new Walker(1600, 800)
-  amogus.color = "green"
+  spawnWalker();
 }
 
 function draw() {
-//Don't want bacckground so we see a trail (so it doesn't keep draw over it)
-  michael.move();
-  katherine.move();
-  amogus.move();
-
-  katherine.display();
-  michael.display();  
-  amogus.display();
+  //Don't want bacckground so we see a trail (so it doesn't keep draw over it)
+  for (let i = 0; i < walkerArray.length; i++){
+    walkerArray[i].move();
+    walkerArray[i].display();  
+  }
 }
 
+function spawnWalker(){
+  let michael = new Walker(random(width), random(height));
+  let someColor = color(random(255), random(255), random(255));
+  michael.color = someColor;
+  walkerArray.push(michael);
+}
+
+function keyPressed(){
+  spawnWalker();
+}
 //Possbily if a button pressed. Make new Walker
