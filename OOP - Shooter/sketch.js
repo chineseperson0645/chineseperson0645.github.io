@@ -4,12 +4,12 @@ class Bullet {
   constructor(playerX, playerY) {
     this.x = x;
     this.y = y;
-    this.color = "red";
+    this.color = "red"
     this.alpha = 255;
-
   }
 
   updater(){
+    this.x = dx++
     alpha()--;
   }
 

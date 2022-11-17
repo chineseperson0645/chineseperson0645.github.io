@@ -1,6 +1,4 @@
-// Colliding Circles
-// Schellenberg
-// Oct 24, 2022
+// Colliding Circles OOP
 
 class Ball{
   constructor(x, y){
