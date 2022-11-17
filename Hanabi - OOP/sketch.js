@@ -23,6 +23,7 @@ class Particle {
     this.alpha--; //slowly descreases the alpha (it's visiblity) so it fades
     this.color = color(this.r, this.g, this.b, this.alpha);
   }
+  
   display(){
     fill(this.color);
     stroke(this.color);
@@ -49,8 +50,8 @@ function setup() {
 
 function draw() {
   background("black");
-  for (let i = 0; i < theFireworks.length; i++){
-    theFireworks[i].updater();
+  for (let i = 0; i < theFireworks.length; i++){ 
+    theFireworks[i].updater(); //Updates it while in array (after being pushed)
     if (theFireworks[i].isDead()){
       //remove from array
       //.splice(a, b), a = Kill location start, b = how many do you want to kill
