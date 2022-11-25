@@ -8,7 +8,7 @@ class Player {
   constructor(playerX, playerY){
     this.playerX = playerX;
     this.playerY = playerY;
-    this.circle = circle(playerX, playerY, 60);
+    this.circle = circle(playerX, playerY, this.size);
     this.color = "red";
     this.size = 50;
   }
