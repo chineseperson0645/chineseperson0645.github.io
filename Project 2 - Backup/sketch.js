@@ -193,6 +193,10 @@ function winDetect(){
       console.log("X Wins");
   }
 
+  //2, 2, 2,
+  //0, 0, 0,
+  //0, 0, 0,
+
 //Checks for O win by searching for input 2 in all win combos
     if (grids[0][0] === 2 && grids[1][0] === 2 && grids[2][0] === 2 || //Down (Left)
         grids[0][0] === 2 && grids[0][1] === 2 && grids[0][2] === 2 || //Across (Top)
