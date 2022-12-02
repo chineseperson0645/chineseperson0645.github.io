@@ -14,7 +14,6 @@ class Particle {
     this.g = random(255);
     this.b = random(255);
     this.alpha = 255;
-    this.color = color(this.r, this.g, this.b, this.alpha);
     this.diameter = 10;
   }
   updater(){ //because it's moving and making it disappear, we call it updater instead of move
