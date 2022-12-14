@@ -10,14 +10,12 @@ function setup() {
 function draw() {
   background("black");
 
-  for (let i=fireworks.length-1; i>=0; i--) {
+  for (let i = 0; i < fireworks.length; i++) {
     fireworks[i].update();
     fireworks[i].display();
-  }
-  for (let i = 0; i < fireworks.length; i++){
-    if (this.isDead){
+    if (fireworks[i].isDead()){
       fireworks.splice(i, 1);
-    }  
+    }
   }
 }
 
@@ -50,7 +48,9 @@ class Particle {
     circle(this.x, this.y, this.size);
   }
   isDead(){
-    return alpha <= 0;
+    return this.alpha <= 0;
   }
 }
 
+
+//Rememeber isDead is a function so put ().
