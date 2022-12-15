@@ -13,9 +13,6 @@ function draw() {
   for (let i = 0; i < fireworks.length; i++) {
     fireworks[i].update();
     fireworks[i].display();
-    if (fireworks[i].isDead()){
-      fireworks.splice(i, 1);
-    }
   }
 }
 
@@ -42,15 +39,23 @@ class Particle {
     this.x += this.dx;
     this.y += this.dy;
     this.color = color(255, 0, 0, this.alpha);
-   }
+  }
+
   display(){
     fill(this.color);
     circle(this.x, this.y, this.size);
+    for (let i = 0; i < fireworks.length; i++){
+      if (fireworks[i].isDead()){
+        fireworks.splice(i, 1);
+      }
+    }
   }
   isDead(){
     return this.alpha <= 0;
   }
 }
+
+
 
 
 //Rememeber isDead is a function so put ().
