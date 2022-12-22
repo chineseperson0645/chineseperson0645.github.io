@@ -54,6 +54,10 @@ function takeTurn(grid){
         }
       }
 
+//iterate through all the cells check if it's a 1 2 3 or whaterver
+//if i === 1 2 3 or whatever. Apply the move conditions for that number.
+//Don't count playerX and Y
+
       //don't count self!
       neighbours -= grid[y][x];
 
